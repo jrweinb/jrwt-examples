@@ -223,6 +223,10 @@
   top: 0;
   z-index: 100;
   animation: headerSlide 0.5s ease-out;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
 }
 
 @keyframes headerSlide {
@@ -244,6 +248,13 @@
 .header-logo-img {
   height: 45px;
   width: auto;
+}
+
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 /* Main Content */
@@ -399,6 +410,23 @@
   background: rgba(255, 255, 255, 0.02);
 }
 
+/* Video Section */
+.video-section {
+  flex: 1;
+  padding: 0 40px 40px;
+  display: flex;
+  min-height: 500px;
+}
+
+.video-embed {
+  width: 100%;
+  height: 100%;
+  min-height: 500px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  background: rgba(0, 0, 0, 0.3);
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .header {
@@ -445,6 +473,15 @@
   
   .figma-embed {
     min-height: 500px;
+  }
+
+  .video-section {
+    padding: 0 20px 20px;
+    min-height: 400px;
+  }
+
+  .video-embed {
+    min-height: 400px;
   }
   
   .login-card {

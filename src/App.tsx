@@ -1,19 +1,30 @@
 import { useState } from 'react'
 import './App.css'
 
-const CORRECT_PASSWORD = 'warranty'
+const CORRECT_PASSWORD = ['warranty', 'lawncare']
 
-type TabKey = 'moodboard' | 'information-architecture' | 'wireframes' | 'hi-fi-design' | 'user-flows'
+type RouteKey = 'examples' | 'process'
 
-type TabInfo = {
-  key: TabKey
+type ProcessTabKey = 'moodboard' | 'information-architecture' | 'wireframes' | 'hi-fi-design' | 'user-flows'
+
+type ProcessTabInfo = {
+  key: ProcessTabKey
   label: string
   embedUrl: string
   description: string
   logo: 'giftpass' | 'roil'
 }
 
-const TABS: TabInfo[] = [
+type ExampleTabKey = 'example-video-1' | 'example-video-2'
+
+type ExampleTabInfo = {
+  key: ExampleTabKey
+  label: string
+  videoUrl: string
+  description: string
+}
+
+const PROCESS_TABS: ProcessTabInfo[] = [
   {
     key: 'moodboard',
     label: 'MOODBOARD',
@@ -51,19 +62,36 @@ const TABS: TabInfo[] = [
   }
 ]
 
+const EXAMPLE_TABS: ExampleTabInfo[] = [
+  {
+    key: 'example-video-1',
+    label: 'Bond Trading Platform',
+    videoUrl: '/JRWT-Example1.mp4',
+    description: 'Platform built for a finance client to trade bonds.'
+  },
+  {
+    key: 'example-video-2',
+    label: 'Advertising Platform',
+    videoUrl: '/JRWT-Example2.mp4',
+    description: 'Platform built for a client to manage outdoor advertising campaigns.'
+  }
+]
+
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
     return sessionStorage.getItem('giftpass_auth') === 'true'
   })
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
-  const [activeTab, setActiveTab] = useState<TabKey>('moodboard')
+  const [activeRoute, setActiveRoute] = useState<RouteKey>('examples')
+  const [activeProcessTab, setActiveProcessTab] = useState<ProcessTabKey>('moodboard')
+  const [activeExampleTab, setActiveExampleTab] = useState<ExampleTabKey>('example-video-1')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
     
-    if (password === CORRECT_PASSWORD) {
+    if (CORRECT_PASSWORD.includes(password)) {
       sessionStorage.setItem('giftpass_auth', 'true')
       setIsAuthenticated(true)
     } else {
@@ -79,8 +107,8 @@ function App() {
           <div className="login-logo">
             <img src="/jrw-logo.svg" alt="JRW" className="login-logo-img" />
           </div>
-          <h1 className="login-title">JRWT Process</h1>
-          <p className="login-subtitle">Enter password to see process examples</p>
+          <h1 className="login-title">JRWT Examples</h1>
+          <p className="login-subtitle">Enter password to view examples and process work</p>
           
           <form onSubmit={handleSubmit} className="login-form">
             <input
@@ -102,7 +130,8 @@ function App() {
     )
   }
 
-  const currentTab = TABS.find(tab => tab.key === activeTab) || TABS[0]
+  const currentProcessTab = PROCESS_TABS.find(tab => tab.key === activeProcessTab) || PROCESS_TABS[0]
+  const currentExampleTab = EXAMPLE_TABS.find(tab => tab.key === activeExampleTab) || EXAMPLE_TABS[0]
 
   return (
     <div className="page-container">
@@ -110,48 +139,108 @@ function App() {
         <div className="header-logo">
           <img src="/jrw-logo.svg" alt="JRW" className="header-logo-img" />
         </div>
+        <nav className="header-nav">
+          <button
+            type="button"
+            className={`tab-pill ${activeRoute === 'examples' ? 'active' : ''}`}
+            onClick={() => setActiveRoute('examples')}
+          >
+            Examples
+          </button>
+          <button
+            type="button"
+            className={`tab-pill ${activeRoute === 'process' ? 'active' : ''}`}
+            onClick={() => setActiveRoute('process')}
+          >
+            Process
+          </button>
+        </nav>
       </header>
 
       <main className="main-content">
-        <section className="intro-section">
-          <h1 className="page-title">JRWT Process</h1>
-          <p className="intro-text">
-            This page features some selected designs and diagrams from the JRWT design and development process. Select an asset to view the embedded Figma files. You can zoom in and pan the page to get a better look.
-          </p>
-        </section>
+        {activeRoute === 'examples' ? (
+          <>
+            <section className="intro-section">
+              <h1 className="page-title">JRWT Examples</h1>
+              <p className="intro-text">
+                A curated set of video examples that highlight storytelling, flow, and visual polish.
+                Select a video to preview the placeholder walkthroughs.
+              </p>
+            </section>
 
-        <nav className="tab-navigation">
-          {TABS.map(tab => (
-            <button
-              key={tab.key}
-              className={`tab-pill ${activeTab === tab.key ? 'active' : ''}`}
-              onClick={() => setActiveTab(tab.key)}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </nav>
+            <nav className="tab-navigation">
+              {EXAMPLE_TABS.map(tab => (
+                <button
+                  key={tab.key}
+                  className={`tab-pill ${activeExampleTab === tab.key ? 'active' : ''}`}
+                  onClick={() => setActiveExampleTab(tab.key)}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </nav>
 
-        <section className="tab-description">
-          <img 
-            src={currentTab.logo === 'giftpass' ? '/gp-logo.svg' : '/roil-logo.svg'} 
-            alt={currentTab.logo === 'giftpass' ? 'Gift Pass' : 'Roil'} 
-            className={`tab-logo ${currentTab.logo === 'roil' ? 'roil-logo' : ''}`}
-          />
-          <p className="tab-description-text">{currentTab.description}</p>
-        </section>
+            <section className="tab-description">
+              <p className="tab-description-text">{currentExampleTab.description}</p>
+            </section>
 
-        <section className="figma-section">
-          <iframe
-            key={activeTab}
-            src={currentTab.embedUrl}
-            style={{ border: '1px solid rgba(0, 0, 0, 0.1)' }}
-            width="100%"
-            height="800"
-            allowFullScreen
-            title={`Gift Pass - ${currentTab.label}`}
-          />
-        </section>
+            <section className="video-section">
+              <video
+                key={activeExampleTab}
+                className="video-embed"
+                src={currentExampleTab.videoUrl}
+                controls
+                autoPlay
+                muted
+                playsInline
+                preload="metadata"
+              />
+            </section>
+          </>
+        ) : (
+          <>
+            <section className="intro-section">
+              <h1 className="page-title">JRWT Process</h1>
+              <p className="intro-text">
+                This page features selected designs and diagrams from the JRWT design and development process.
+                Select an asset to view the embedded Figma files. You can zoom in and pan the page to get a better look.
+              </p>
+            </section>
+
+            <nav className="tab-navigation">
+              {PROCESS_TABS.map(tab => (
+                <button
+                  key={tab.key}
+                  className={`tab-pill ${activeProcessTab === tab.key ? 'active' : ''}`}
+                  onClick={() => setActiveProcessTab(tab.key)}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </nav>
+
+            <section className="tab-description">
+              <img 
+                src={currentProcessTab.logo === 'giftpass' ? '/gp-logo.svg' : '/roil-logo.svg'} 
+                alt={currentProcessTab.logo === 'giftpass' ? 'Gift Pass' : 'Roil'} 
+                className={`tab-logo ${currentProcessTab.logo === 'roil' ? 'roil-logo' : ''}`}
+              />
+              <p className="tab-description-text">{currentProcessTab.description}</p>
+            </section>
+
+            <section className="figma-section">
+              <iframe
+                key={activeProcessTab}
+                src={currentProcessTab.embedUrl}
+                style={{ border: '1px solid rgba(0, 0, 0, 0.1)' }}
+                width="100%"
+                height="800"
+                allowFullScreen
+                title={`Gift Pass - ${currentProcessTab.label}`}
+              />
+            </section>
+          </>
+        )}
       </main>
     </div>
   )
