@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 22,
+            "activePatchIndex": 23,
             "patches": [
                 {
                     "date": 1768424588970,
@@ -96,6 +96,10 @@
                 {
                     "date": 1769120757019,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -189,8 +189,10 @@\n                 key={activeExampleTab}\n                 className=\"video-embed\"\n                 src={currentExampleTab.videoUrl}\n                 controls\n+                autoPlay\n+                muted\n                 playsInline\n                 preload=\"metadata\"\n               />\n             </section>\n"
+                },
+                {
+                    "date": 1769185911638,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -65,15 +65,15 @@\n const EXAMPLE_TABS: ExampleTabInfo[] = [\n   {\n     key: 'example-video-1',\n     label: 'Bond Trading Platform',\n-    videoUrl: '/JRWT-Example1.mp4',\n+    videoUrl: 'https://jrwt-examples.s3.ap-southeast-1.amazonaws.com/JRWT-Example1.mp4',\n     description: 'Platform built for a finance client to trade bonds.'\n   },\n   {\n     key: 'example-video-2',\n     label: 'Advertising Platform',\n-    videoUrl: '/JRWT-Example2.mp4',\n+    videoUrl: 'https://jrwt-examples.s3.ap-southeast-1.amazonaws.com/JRWT-Example2.mp4',\n     description: 'Platform built for a client to manage outdoor advertising campaigns.'\n   }\n ]\n \n"
                 }
             ],
             "date": 1768424588969,

@@ -66,13 +66,13 @@ const EXAMPLE_TABS: ExampleTabInfo[] = [
   {
     key: 'example-video-1',
     label: 'Bond Trading Platform',
-    videoUrl: '/JRWT-Example1.mp4',
+    videoUrl: 'https://jrwt-examples.s3.ap-southeast-1.amazonaws.com/JRWT-Example1.mp4',
     description: 'Platform built for a finance client to trade bonds.'
   },
   {
     key: 'example-video-2',
     label: 'Advertising Platform',
-    videoUrl: '/JRWT-Example2.mp4',
+    videoUrl: 'https://jrwt-examples.s3.ap-southeast-1.amazonaws.com/JRWT-Example2.mp4',
     description: 'Platform built for a client to manage outdoor advertising campaigns.'
   }
 ]
