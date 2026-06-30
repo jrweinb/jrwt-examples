@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>APEX Driver App Wireframes</title>
+  <style>
+    :root {
+      --page: #eee9df;
+      --phone: #fbfaf7;
+      --ink: #171713;
+      --muted: #686b63;
+      --line: #d8d2c7;
+      --soft: #f0ede6;
+      --card: #fff;
+      --map: #e1e8dd;
+      --street: #c2ccbd;
+      --accent: #f38a18;
+      --accent-soft: #fff0dc;
+      --success: #1e7049;
+      --success-soft: #e1f1e7;
+      --warning: #875900;
+      --warning-soft: #f7ead0;
+      --danger: #b94728;
+      --danger-soft: #f7e1d9;
+      --shadow: 0 22px 60px rgba(42,36,27,.14);
+      --font: "Aptos", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: radial-gradient(circle at 12% 0%, rgba(243,138,24,.12), transparent 28rem), linear-gradient(135deg, #f8f6f1, var(--page));
+      font-family: var(--font);
+    }
+    .page { width: min(1800px, calc(100vw - 40px)); margin: 0 auto; padding: 38px 0 64px; }
+    .brief { display: grid; grid-template-columns: minmax(320px, 650px) 1fr; gap: 28px; align-items: end; margin-bottom: 22px; }
+    h1 { margin: 0; font-size: 34px; line-height: 1.05; letter-spacing: 0; }
+    .brief p { margin: 12px 0 0; color: var(--muted); font-size: 15px; line-height: 1.5; max-width: 76ch; }
+    .legend { justify-self: end; display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+    .legend span { padding: 8px 12px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,.55); color: var(--muted); font-size: 12px; }
+    .tab-input { position: absolute; inline-size: 1px; block-size: 1px; opacity: 0; pointer-events: none; }
+    .tabs { display: inline-grid; grid-template-columns: repeat(2, minmax(132px, auto)); gap: 6px; padding: 6px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,.64); margin-bottom: 26px; }
+    .tab-label { min-height: 42px; display: grid; place-items: center; padding: 0 20px; border-radius: 999px; color: var(--muted); font-size: 13px; font-weight: 900; cursor: pointer; }
+    #tab-wireframes:checked ~ .tabs label[for="tab-wireframes"],
+    #tab-flows:checked ~ .tabs label[for="tab-flows"] { color: var(--ink); background: var(--accent-soft); box-shadow: inset 0 0 0 1px #f3c98f; }
+    .tab-panel { display: none; }
+    #tab-wireframes:checked ~ #wireframes-panel,
+    #tab-flows:checked ~ #flows-panel { display: block; }
+    .section-title { margin: 34px 0 18px; font-size: 22px; letter-spacing: 0; }
+    .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(390px, 1fr)); gap: 34px; align-items: start; }
+    .frame { display: grid; justify-items: center; gap: 10px; }
+    .frame-label { width: 390px; color: #3d3a33; font-weight: 850; font-size: 13px; }
+    .frame-note { width: 390px; margin-top: -4px; color: var(--muted); font-size: 12px; line-height: 1.38; }
+    .phone { width: 390px; height: 844px; overflow: hidden; position: relative; display: flex; flex-direction: column; border: 1px solid #e0dacf; border-radius: 34px; background: var(--phone); box-shadow: var(--shadow); }
+    .status { height: 58px; padding: 0 26px; display: flex; align-items: center; justify-content: space-between; font-size: 14px; font-weight: 800; }
+    .content { flex: 1; min-height: 0; padding: 12px 18px 18px; display: flex; flex-direction: column; gap: 14px; }
+    .top { display: flex; align-items: center; justify-content: space-between; min-height: 38px; gap: 12px; }
+    .brand { display: flex; align-items: center; gap: 9px; font-weight: 900; letter-spacing: .02em; }
+    .mark { width: 31px; height: 31px; border-radius: 11px; display: grid; place-items: center; background: var(--ink); color: #fff; font-size: 12px; font-weight: 900; }
+    .pill { display: inline-flex; align-items: center; gap: 7px; min-height: 30px; padding: 6px 10px; border-radius: 999px; color: var(--muted); background: var(--soft); font-size: 12px; font-weight: 800; white-space: nowrap; }
+    .pill.dark { color: #fff; background: var(--ink); }
+    .pill.good { color: var(--success); background: var(--success-soft); }
+    .pill.warn { color: var(--warning); background: var(--warning-soft); }
+    .pill.bad { color: var(--danger); background: var(--danger-soft); }
+    .title-block { display: grid; gap: 6px; }
+    .kicker { color: var(--muted); font-size: 11px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; }
+    .title { margin: 0; font-size: 27px; line-height: 1.08; letter-spacing: 0; font-weight: 780; }
+    .subtitle { color: var(--muted); font-size: 13px; line-height: 1.38; margin: 0; }
+    .hero { min-height: 162px; border: 1px solid var(--line); border-radius: 28px; background: linear-gradient(140deg, rgba(243,138,24,.16), transparent 48%), var(--card); display: grid; align-content: center; gap: 10px; padding: 22px; box-shadow: 0 14px 36px rgba(42,36,27,.10); }
+    .hero.danger { background: linear-gradient(140deg, rgba(185,71,40,.18), transparent 50%), var(--card); border-color: #edc9be; }
+    .amount { font-size: 46px; line-height: 1; font-weight: 900; letter-spacing: 0; }
+    .score-card { min-height: 218px; border: 1px solid #c4dfce; border-radius: 28px; background: linear-gradient(140deg, rgba(30,112,73,.14), transparent 52%), var(--card); display: grid; align-content: center; justify-items: center; gap: 9px; padding: 22px; box-shadow: 0 14px 36px rgba(42,36,27,.10); text-align: center; }
+    .score-ring { width: 132px; height: 132px; border-radius: 999px; display: grid; place-items: center; background: conic-gradient(var(--success) 0 86%, var(--soft) 86% 100%); position: relative; }
+    .score-ring::after { content: ""; position: absolute; inset: 13px; border-radius: 999px; background: var(--card); }
+    .score-ring strong { position: relative; z-index: 1; font-size: 38px; line-height: 1; }
+    .score-ring span { position: relative; z-index: 1; color: var(--muted); font-size: 11px; font-weight: 900; }
+    .metric { border: 1px solid var(--line); border-radius: 16px; background: var(--card); padding: 10px 12px; display: grid; gap: 7px; }
+    .metric-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 13px; font-weight: 850; }
+    .meter { height: 8px; overflow: hidden; border-radius: 999px; background: var(--soft); }
+    .meter i { display: block; height: 100%; border-radius: inherit; background: var(--success); }
+    .meter.warn i { background: var(--warning); }
+    .meter.bad i { background: var(--danger); }
+    .map { position: relative; overflow: hidden; min-height: 298px; border: 1px solid var(--line); border-radius: 24px; background: linear-gradient(7deg, transparent 24%, #fff 24.8%, #fff 27.6%, transparent 28.4%), linear-gradient(96deg, transparent 35%, rgba(255,255,255,.8) 35.7%, rgba(255,255,255,.8) 38.5%, transparent 39.2%), var(--map); }
+    .map.tall { min-height: 390px; }
+    .map.short { min-height: 224px; }
+    .street, .route { position: absolute; height: 5px; border-radius: 999px; transform-origin: left center; }
+    .street { background: var(--street); opacity: .82; }
+    .route { width: 196px; left: 84px; top: 158px; transform: rotate(-20deg); background: var(--ink); height: 7px; }
+    .s1 { width: 180px; left: 34px; top: 64px; transform: rotate(13deg); }
+    .s2 { width: 230px; left: 116px; top: 130px; transform: rotate(-19deg); }
+    .s3 { width: 160px; left: 192px; top: 220px; transform: rotate(15deg); }
+    .zone { position: absolute; width: 130px; height: 86px; right: 42px; bottom: 76px; border-radius: 999px; background: rgba(243,138,24,.26); border: 1px solid rgba(243,138,24,.28); }
+    .driver-pin { position: absolute; width: 34px; height: 34px; left: 50%; top: 54%; transform: translate(-50%, -50%); border: 7px solid rgba(23,23,19,.14); border-radius: 999px; background: var(--ink); box-shadow: 0 4px 14px rgba(23,23,19,.24); }
+    .driver-pin::after { content: ""; position: absolute; width: 10px; height: 10px; left: 5px; top: 5px; border-radius: 999px; background: var(--accent); }
+    .pin { position: absolute; width: 25px; height: 25px; right: 70px; top: 118px; border-radius: 999px; border: 4px solid #fff; background: var(--accent); box-shadow: 0 4px 12px rgba(23,23,19,.2); }
+    .pin.drop { right: 48px; top: 66px; background: var(--ink); }
+    .map-chip { position: absolute; left: 14px; top: 14px; padding: 7px 10px; border-radius: 999px; color: var(--ink); background: rgba(255,255,255,.84); border: 1px solid rgba(216,210,199,.9); font-size: 12px; font-weight: 800; }
+    .sheet { border: 1px solid var(--line); border-radius: 24px; background: var(--card); padding: 16px; box-shadow: 0 14px 36px rgba(42,36,27,.10); display: grid; gap: 12px; }
+    .sheet.flush { box-shadow: none; }
+    .sheet-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .sheet-title { font-size: 17px; font-weight: 850; margin: 0; }
+    .rows { display: grid; gap: 8px; }
+    .row { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 29px; font-size: 13px; }
+    .row span:first-child { color: var(--muted); }
+    .row strong { font-size: 13px; text-align: right; }
+    .row.total { border-top: 1px solid var(--line); padding-top: 11px; margin-top: 3px; }
+    .row.total strong { font-size: 20px; }
+    .list { display: grid; gap: 9px; }
+    .item { min-height: 52px; border: 1px solid var(--line); border-radius: 16px; background: var(--card); display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 12px; padding: 10px 12px; font-size: 13px; font-weight: 800; }
+    .item span, .item small { display: block; color: var(--muted); font-size: 12px; font-weight: 760; margin-top: 2px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 9px; }
+    .chip { min-height: 36px; display: inline-flex; align-items: center; padding: 8px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--card); font-size: 13px; font-weight: 800; color: var(--muted); }
+    .chip.active { color: var(--ink); background: var(--accent-soft); border-color: #f3c98f; }
+    .button { min-height: 52px; border: 0; border-radius: 17px; background: var(--ink); color: #fff; font-size: 15px; font-weight: 850; display: flex; align-items: center; justify-content: center; width: 100%; }
+    .button.accent { background: var(--accent); color: var(--ink); }
+    .button.secondary { background: var(--soft); color: var(--ink); border: 1px solid var(--line); }
+    .button.danger { background: var(--danger); }
+    .actions { display: grid; grid-template-columns: 112px 1fr; gap: 10px; }
+    .actions.equal { grid-template-columns: 1fr 1fr; }
+    .notice { border: 1px solid var(--line); background: var(--soft); border-radius: 22px; padding: 16px; display: grid; gap: 6px; }
+    .notice.good { border-color: #c4dfce; background: var(--success-soft); }
+    .notice.warn { border-color: #ead6b0; background: var(--warning-soft); }
+    .notice.bad { border-color: #edc9be; background: var(--danger-soft); }
+    .notice strong { font-size: 16px; }
+    .notice p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.4; }
+    .input { min-height: 52px; border: 1px solid var(--line); border-radius: 17px; background: var(--card); display: flex; align-items: center; justify-content: space-between; padding: 0 14px; color: var(--muted); font-size: 13px; }
+    .textarea { min-height: 96px; border: 1px solid var(--line); border-radius: 18px; background: var(--card); padding: 13px; color: var(--muted); font-size: 13px; }
+    .upload { min-height: 132px; border: 2px dashed var(--line); border-radius: 22px; background: var(--soft); display: grid; place-items: center; text-align: center; padding: 18px; color: var(--muted); font-size: 13px; }
+    .emergency { min-height: 86px; border-radius: 24px; background: var(--danger); color: #fff; display: grid; place-items: center; font-size: 21px; font-weight: 900; }
+    .thread { flex: 1; min-height: 0; display: grid; align-content: end; gap: 10px; border: 1px solid var(--line); border-radius: 24px; background: var(--soft); padding: 14px; }
+    .bubble { max-width: 84%; padding: 10px 12px; border-radius: 17px; background: #fff; font-size: 13px; line-height: 1.35; }
+    .bubble.me { justify-self: end; color: #fff; background: var(--ink); }
+    .bottom-nav { margin-top: auto; height: 60px; border: 1px solid var(--line); border-radius: 30px; background: rgba(255,255,255,.86); display: grid; grid-template-columns: repeat(3, 1fr); align-items: center; padding: 6px; box-shadow: 0 10px 24px rgba(42,36,27,.10); }
+    .nav-item { height: 48px; border-radius: 24px; display: grid; place-items: center; color: var(--muted); font-size: 10px; font-weight: 800; }
+    .nav-item.active { color: var(--ink); background: var(--accent-soft); }
+    .nav-item b { display: block; font-size: 16px; line-height: 1; color: inherit; }
+    .flow-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 18px; align-items: start; }
+    .flow-card { border: 1px solid var(--line); border-radius: 24px; background: rgba(255,255,255,.66); padding: 20px; box-shadow: 0 12px 30px rgba(42,36,27,.08); }
+    .flow-card h3 { margin: 0 0 10px; font-size: 18px; letter-spacing: 0; }
+    .flow-card p { margin: 0 0 12px; color: var(--muted); font-size: 13px; line-height: 1.45; }
+    .flow-card ol { margin: 0; padding-left: 20px; display: grid; gap: 7px; color: #3d3a33; font-size: 13px; line-height: 1.45; }
+    .flow-card li::marker { font-weight: 900; color: var(--accent); }
+    @media (max-width: 900px) { .brief { grid-template-columns: 1fr; } .legend { justify-self: start; justify-content: flex-start; } .gallery { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="brief">
+      <div>
+        <h1>APEX Driver App Wireframes</h1>
+      </div>
+      <div class="legend">
+        <span>67 screens</span>
+        <span>Core driver loop</span>
+        <span>MVP state map</span>
+      </div>
+    </section>
+
+    <input class="tab-input" type="radio" name="view" id="tab-wireframes" checked>
+    <input class="tab-input" type="radio" name="view" id="tab-flows">
+    <div class="tabs" role="tablist" aria-label="Wireframe views">
+      <label class="tab-label" for="tab-wireframes" role="tab">Wireframes</label>
+      <label class="tab-label" for="tab-flows" role="tab">Flows</label>
+    </div>
+
+    <section class="tab-panel" id="wireframes-panel">
+      <h2 class="section-title">Auth And Eligibility</h2>
+      <section class="gallery">
+      <article class="frame"><div class="frame-label">M01. Splash / Loading</div><div class="phone"><div class="status"><span>9:41</span><span></span></div><div class="content"><div class="hero"><div class="brand"><span class="mark">A</span><span>APEX</span></div><h2 class="title">Loading driver app</h2><p class="subtitle">Checking session and driver eligibility.</p></div><div class="notice"><strong>Next</strong><p>Route to sign in, activation, or Drive.</p></div></div></div></article>
+      <article class="frame"><div class="frame-label">M02. Sign In</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="brand"><span class="mark">A</span><span>APEX</span></div><div class="hero"><div class="kicker">Driver sign in</div><h2 class="title">Start driving with APEX</h2><p class="subtitle">Use your phone number to sign in or create a driver account.</p></div><div class="input"><span>Mobile number</span><strong>US</strong></div><button class="button accent">Continue</button></div></div></article>
+      <article class="frame"><div class="frame-label">M03. Verification Code</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="top"><span class="pill">Back</span><span class="pill">Verify</span></div><div class="title-block"><div class="kicker">Security</div><h2 class="title">Enter the code</h2><p class="subtitle">We sent a six-digit code to your phone.</p></div><div class="sheet"><div class="amount">123 456</div><p class="subtitle">Resend code in 24 seconds</p></div><button class="button accent">Verify</button></div></div></article>
+      <article class="frame"><div class="frame-label">M04. Location Permission</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="hero"><div class="kicker">Permission</div><h2 class="title">Allow location while driving</h2><p class="subtitle">APEX needs precise location for pickup, navigation, and safety.</p></div><div class="list"><div class="item">Match nearby requests <strong>Required</strong></div><div class="item">Navigate pickup and dropoff <strong>Required</strong></div></div><button class="button accent">Allow location</button></div></div></article>
+      <article class="frame"><div class="frame-label">M05. Driver Requirements</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="top"><span class="pill">Back</span><span class="pill">Requirements</span></div><div class="title-block"><div class="kicker">Eligibility</div><h2 class="title">Complete these steps</h2><p class="subtitle">APEX needs identity, vehicle, documents, and background check approval.</p></div><div class="list"><div class="item">Identity verification <span>Not started</span></div><div class="item">Driver license <span>Required</span></div><div class="item">Vehicle details <span>Required</span></div><div class="item">Vehicle documents <span>Insurance + registration</span></div><div class="item">Background check <span>Consent required</span></div></div><button class="button">Continue</button></div></div></article>
+      <article class="frame"><div class="frame-label">M06. Identity Verification</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="top"><span class="pill">Back</span><span class="pill">Identity</span></div><div class="hero"><div class="kicker">Verify identity</div><h2 class="title">Confirm who is driving</h2><p class="subtitle">Take a photo of your ID and a quick selfie check.</p></div><div class="list"><div class="item">Government ID <strong>Start</strong></div><div class="item">Selfie match <strong>After ID</strong></div></div><button class="button">Start verification</button></div></div></article>
+      <article class="frame"><div class="frame-label">M07. License Upload</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="title-block"><div class="kicker">Driver license</div><h2 class="title">Upload your license</h2><p class="subtitle">Use a clear image of the front of your valid license.</p></div><div class="upload"><strong>Camera or file upload</strong><br>License front side</div><div class="input"><span>Expiration date</span><strong>Select</strong></div><button class="button accent">Submit license</button></div></div></article>
+      <article class="frame"><div class="frame-label">M08. Background Check Consent</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="hero"><div class="kicker">Background check</div><h2 class="title">Consent required</h2><p class="subtitle">APEX runs required checks before activation.</p></div><div class="notice"><strong>What happens next</strong><p>You can continue onboarding while review is pending.</p></div><button class="button accent">Agree and continue</button></div></div></article>
+      <article class="frame"><div class="frame-label">M09. Add Vehicle</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="title-block"><div class="kicker">Vehicle</div><h2 class="title">Add your car</h2><p class="subtitle">APEX uses this to determine ride type eligibility.</p></div><div class="list"><div class="item">Year <strong>2021</strong></div><div class="item">Make and model <strong>Toyota Camry</strong></div><div class="item">Plate <strong>ABC-123</strong></div></div><button class="button accent">Save vehicle</button></div></div></article>
+      <article class="frame"><div class="frame-label">M10. Vehicle Document Upload</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="top"><span class="pill">Back</span><span class="pill">Reusable upload</span></div><div class="title-block"><div class="kicker">Vehicle document</div><h2 class="title">Upload insurance</h2><p class="subtitle">This same pattern handles registration and future document updates.</p></div><div class="upload"><strong>Camera or file upload</strong><br>Make sure all details are visible</div><div class="input"><span>Expiration date</span><strong>Select</strong></div><button class="button accent">Submit document</button></div></div></article>
+      <article class="frame"><div class="frame-label">M11. Terms Acceptance</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="hero"><div class="kicker">Terms</div><h2 class="title">Review driver terms</h2><p class="subtitle">Accept platform, privacy, safety, and payment terms.</p></div><div class="list"><div class="item">Driver agreement <strong>View</strong></div><div class="item">Privacy policy <strong>View</strong></div><div class="item">Safety guidelines <strong>View</strong></div></div><button class="button accent">Accept and continue</button></div></div></article>
+      <article class="frame"><div class="frame-label">M12. Approval Pending</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="top"><div class="brand"><span class="mark">A</span><span>APEX</span></div><span class="pill warn">Pending</span></div><div class="hero"><div class="kicker">Activation review</div><h2 class="title">We are reviewing your account</h2><p class="subtitle">You will get an update when all checks are complete.</p></div><div class="list"><div class="item">Identity <span>Approved</span></div><div class="item">Documents <span>Reviewing</span></div><div class="item">Background check <span>Pending</span></div></div></div></div></article>
+      <article class="frame"><div class="frame-label">M13. Document Rejected / Resubmit</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="top"><div class="brand"><span class="mark">A</span><span>APEX</span></div><span class="pill bad">Action needed</span></div><div class="hero danger"><div class="kicker">Document issue</div><h2 class="title">Insurance photo is unreadable</h2><p class="subtitle">Upload a clearer document to continue activation.</p></div><div class="notice bad"><strong>What to fix</strong><p>Policy number and expiration date must be visible.</p></div><button class="button accent">Resubmit</button></div></div></article>
+      <article class="frame"><div class="frame-label">M14. Activated Success</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="hero"><div class="kicker">Approved</div><h2 class="title">You are ready to drive</h2><p class="subtitle">Your account is active. Go online when you are ready.</p></div><button class="button accent">Go to Drive</button></div></div></article>
+    </section>
+
+    <h2 class="section-title">Drive And Requests</h2>
+    <section class="gallery">
+      <article class="frame"><div class="frame-label">M15. Offline Map</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="top"><div class="brand"><span class="mark">A</span><span>APEX</span></div><span class="pill">Offline</span></div><div class="map tall"><span class="map-chip">Nearby demand hint</span><i class="street s1"></i><i class="street s2"></i><i class="street s3"></i><span class="zone"></span><span class="driver-pin"></span></div><div class="sheet"><div class="sheet-head"><h3 class="sheet-title">Ready to drive?</h3><span class="pill warn">Busy in 12 min</span></div><div class="row"><span>Vehicle</span><strong>Camry · ABC-123</strong></div></div><button class="button">Go Online</button><nav class="bottom-nav"><span class="nav-item active"><b>⌁</b>Drive</span><span class="nav-item"><b>$</b>Earnings</span><span class="nav-item"><b>○</b>Account</span></nav></div></div></article>
+      <article class="frame"><div class="frame-label">M16. Go Online Checking</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="top"><div class="brand"><span class="mark">A</span><span>APEX</span></div><span class="pill warn">Checking</span></div><div class="map"><span class="map-chip">Verifying status</span><i class="street s1"></i><i class="street s2"></i><span class="driver-pin"></span></div><div class="list"><div class="item">Location <span>OK</span></div><div class="item">Documents <span>OK</span></div><div class="item">Vehicle <span>Checking</span></div></div><button class="button secondary">Cancel</button></div></div></article>
+      <article class="frame"><div class="frame-label">M17. Go Online Blocker</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="top"><div class="brand"><span class="mark">A</span><span>APEX</span></div><span class="pill bad">Blocked</span></div><div class="hero danger"><div class="kicker">Cannot go online</div><h2 class="title">Insurance expired</h2><p class="subtitle">Fix the required item before receiving ride requests.</p></div><div class="sheet"><div class="row"><span>Required action</span><strong>Upload insurance</strong></div><div class="row"><span>Review timing</span><strong>Usually under 24h</strong></div></div><div class="actions equal"><button class="button accent">Upload</button><button class="button secondary">Later</button></div></div></div></article>
+      <article class="frame"><div class="frame-label">M18. Online Waiting Map</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="top"><div class="brand"><span class="mark">A</span><span>APEX</span></div><span class="pill dark">Online</span></div><div class="map tall"><span class="map-chip">Waiting for requests</span><i class="street s1"></i><i class="street s2"></i><i class="street s3"></i><span class="zone"></span><span class="driver-pin"></span></div><div class="sheet flush"><div class="row"><span>Ride types</span><strong>Standard, XL</strong></div><div class="row"><span>Break</span><strong>Not paused</strong></div></div><button class="button secondary">Go Offline</button><nav class="bottom-nav"><span class="nav-item active"><b>⌁</b>Drive</span><span class="nav-item"><b>$</b>Earnings</span><span class="nav-item"><b>○</b>Account</span></nav></div></div></article>
+      <article class="frame"><div class="frame-label">M19. Ride Request: One Template, Many Variants</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="top"><span class="pill dark">New request</span><span class="pill warn">12 sec</span></div><div class="title-block"><div class="kicker">Ride request</div><h2 class="title">$31.40 upfront</h2><p class="subtitle">Pickup in 6 min · Airport area dropoff.</p></div><div class="map short"><span class="map-chip">Pickup route</span><i class="street s1"></i><i class="street s2"></i><i class="route"></i><span class="pin"></span><span class="pin drop"></span><span class="driver-pin"></span></div><div class="chips"><span class="chip active">Upfront</span><span class="chip">Long trip</span><span class="chip">Multi-stop</span><span class="chip active">+$3 bonus</span></div><div class="sheet"><div class="row"><span>Pickup</span><strong>1.1 mi · 6 min</strong></div><div class="row"><span>Trip</span><strong>34 min · Airport</strong></div><div class="row"><span>Rider</span><strong>4.92 · Verified</strong></div></div><div class="actions"><button class="button secondary">Decline</button><button class="button accent">Accept</button></div></div></div></article>
+      <article class="frame"><div class="frame-label">M20. Request Accepted</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="top"><div class="brand"><span class="mark">A</span><span>APEX</span></div><span class="pill good">Matched</span></div><div class="map"><span class="map-chip">Pickup route ready</span><i class="street s1"></i><i class="street s2"></i><i class="route"></i><span class="pin"></span><span class="driver-pin"></span></div><div class="sheet"><h3 class="sheet-title">Navigate to Maya</h3><div class="row"><span>Pickup</span><strong>4 min away</strong></div></div><button class="button accent">Navigate to pickup</button></div></div></article>
+      <article class="frame"><div class="frame-label">M21. Request Toast State</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="top"><div class="brand"><span class="mark">A</span><span>APEX</span></div><span class="pill dark">Online</span></div><div class="notice warn"><strong>Request missed</strong><p>This same lightweight state covers declined, expired, and unavailable-after-accept outcomes.</p></div><div class="map tall"><span class="map-chip">Back online</span><i class="street s1"></i><i class="street s2"></i><span class="driver-pin"></span></div><button class="button secondary">Go Offline</button><nav class="bottom-nav"><span class="nav-item active"><b>⌁</b>Drive</span><span class="nav-item"><b>$</b>Earnings</span><span class="nav-item"><b>○</b>Account</span></nav></div></div></article>
+      <article class="frame"><div class="frame-label">M22. Go Offline Confirmation</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="hero"><div class="kicker">End session</div><h2 class="title">Go offline?</h2><p class="subtitle">You will stop receiving ride requests.</p></div><div class="sheet"><div class="row"><span>Online time</span><strong>3h 12m</strong></div><div class="row"><span>Trips</span><strong>6</strong></div><div class="row"><span>Earnings</span><strong>$108.24</strong></div></div><div class="actions equal"><button class="button danger">Go offline</button><button class="button secondary">Stay online</button></div></div></div></article>
+      <article class="frame"><div class="frame-label">M23. Session Summary</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="hero"><div class="kicker">Session complete</div><div class="amount">$108.24</div><p class="subtitle">3h 12m online · 6 trips completed.</p></div><div class="actions equal"><button class="button">View earnings</button><button class="button secondary">Done</button></div></div></div></article>
+    </section>
+
+    <h2 class="section-title">Pickup</h2>
+    <section class="gallery">
+      <article class="frame"><div class="frame-label">M24. Navigate To Pickup</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="top"><div class="brand"><span class="mark">A</span><span>APEX</span></div><span class="pill good">Pickup · 4 min</span></div><div class="map tall"><span class="map-chip">To rider</span><i class="street s1"></i><i class="street s2"></i><i class="route"></i><span class="pin"></span><span class="driver-pin"></span></div><div class="sheet"><div class="sheet-head"><h3 class="sheet-title">Maya · 4.92</h3><span class="pill good">Verified</span></div><div class="row"><span>Pickup note</span><strong>South entrance</strong></div></div><div class="actions equal"><button class="button secondary">Contact</button><button class="button secondary">Safety</button></div></div></div></article>
+      <article class="frame"><div class="frame-label">M25. Pickup Details With Issue Actions</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="top"><span class="pill">Back</span><span class="pill">Pickup</span></div><div class="sheet"><h3 class="sheet-title">125 Market Street</h3><div class="row"><span>Rider</span><strong>Maya · Verified</strong></div><div class="row"><span>Note</span><strong>Meet by south entrance</strong></div><div class="row"><span>Ride type</span><strong>Standard</strong></div></div><div class="list"><div class="item">Contact rider <strong>›</strong></div><div class="item">Report pickup pin issue <strong>›</strong></div><div class="item">Cancel pickup <strong>›</strong></div></div><button class="button">Close details</button></div></div></article>
+      <article class="frame"><div class="frame-label">M26. Contact Rider</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="top"><span class="pill">Back</span><span class="pill">Contact</span></div><div class="hero"><div class="kicker">Contact Maya</div><h2 class="title">Call or quick reply</h2><p class="subtitle">MVP uses masked call and quick replies instead of full chat.</p></div><div class="actions equal"><button class="button">Call</button><button class="button secondary">Message</button></div><div class="chips"><span class="chip active">I am here</span><span class="chip">On my way</span><span class="chip">Where are you?</span></div></div></div></article>
+      <article class="frame"><div class="frame-label">M27. Arrived / Waiting Timer</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="top"><span class="pill good">Arrived</span><span class="pill warn">Waiting</span></div><div class="hero"><div class="kicker">Waiting for rider</div><div class="amount">03:42</div><p class="subtitle">Free wait, paid wait, and no-show eligibility live in one state.</p></div><div class="sheet"><div class="row"><span>No-show eligible</span><strong>At 5:00</strong></div><div class="row"><span>Contact</span><strong>Quick replies or call</strong></div></div><div class="actions"><button class="button secondary">Contact</button><button class="button accent">Start ride</button></div><button class="button danger">Cancel / no-show</button></div></div></article>
+      <article class="frame"><div class="frame-label">M28. Start Ride With Identity Guard</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="top"><span class="pill">Pickup</span><span class="pill good">Ready</span></div><div class="title-block"><div class="kicker">Start trip</div><h2 class="title">Confirm rider is in the car</h2><p class="subtitle">Wrong rider and optional PIN checks are handled here, not as separate top-level screens.</p></div><div class="sheet"><div class="row"><span>Expected rider</span><strong>Maya</strong></div><div class="row"><span>PIN</span><strong>Ask if unsure</strong></div><div class="row"><span>Destination</span><strong>West Loop</strong></div></div><div class="actions"><button class="button secondary">Contact</button><button class="button accent">Start ride</button></div></div></div></article>
+      <article class="frame"><div class="frame-label">M29. Cancel Before Pickup</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="title-block"><div class="kicker">Cancel pickup</div><h2 class="title">Choose a reason</h2><p class="subtitle">This list also covers pickup pin and wrong rider issues.</p></div><div class="list"><div class="item">Rider not at pickup</div><div class="item">Cannot contact rider</div><div class="item">Unsafe pickup</div><div class="item">Wrong rider</div><div class="item">Vehicle issue</div></div><button class="button danger">Submit cancellation</button></div></div></article>
+      <article class="frame"><div class="frame-label">M30. No-Show Cancellation</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="hero"><div class="kicker">No-show eligible</div><div class="amount">05:00</div><p class="subtitle">Required wait time complete.</p></div><div class="notice good"><strong>Fee eligible</strong><p>You contacted the rider and waited the required time.</p></div><button class="button danger">Cancel as no-show</button></div></div></article>
+      <article class="frame"><div class="frame-label">M31. Rider Cancelled</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="hero"><div class="kicker">Ride cancelled</div><h2 class="title">Rider cancelled before pickup</h2><p class="subtitle">You can return online and receive another request.</p></div><div class="sheet"><div class="row"><span>Fee status</span><strong>Checking eligibility</strong></div></div><button class="button">Return online</button></div></div></article>
+    </section>
+
+    <h2 class="section-title">Active Trip</h2>
+    <section class="gallery">
+      <article class="frame"><div class="frame-label">M32. Active Trip Navigation</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="top"><div class="brand"><span class="mark">A</span><span>APEX</span></div><span class="pill dark">Trip active</span></div><div class="map tall"><span class="map-chip">To West Loop</span><i class="street s1"></i><i class="street s2"></i><i class="route"></i><span class="pin drop"></span><span class="driver-pin"></span></div><div class="sheet"><div class="sheet-head"><h3 class="sheet-title">18 min to destination</h3><span class="pill">Maya</span></div><div class="row"><span>Destination</span><strong>810 Madison St</strong></div></div><div class="actions equal"><button class="button secondary">Trip details</button><button class="button secondary">Safety</button></div></div></div></article>
+      <article class="frame"><div class="frame-label">M33. Active Trip Details With Hidden Exceptions</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="top"><span class="pill">Close</span><span class="pill">Trip details</span></div><div class="sheet"><h3 class="sheet-title">Trip controls</h3><div class="row"><span>Destination</span><strong>810 Madison St</strong></div><div class="row"><span>ETA</span><strong>18 min</strong></div><div class="row"><span>Rider</span><strong>Maya</strong></div></div><div class="list"><div class="item">Report route / map issue <strong>›</strong></div><div class="item">End ride early <strong>›</strong></div><div class="item">Contact support <strong>›</strong></div></div><button class="button secondary">Return to navigation</button></div></div></article>
+      <article class="frame"><div class="frame-label">M34. In-Trip Safety Tools</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="top"><span class="pill">Back</span><span class="pill bad">Safety</span></div><div class="emergency">Emergency assistance</div><div class="list"><div class="item">Report safety issue <strong>›</strong></div><div class="item">Contact support <strong>›</strong></div><div class="item">Return to trip <strong>›</strong></div></div></div></div></article>
+      <article class="frame"><div class="frame-label">M35. Destination Changed</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="hero"><div class="kicker">Route update</div><h2 class="title">Destination changed</h2><p class="subtitle">Route and ETA have been recalculated.</p></div><div class="sheet"><div class="row"><span>New destination</span><strong>1200 Lake St</strong></div><div class="row"><span>Updated ETA</span><strong>24 min</strong></div></div><button class="button accent">Got it</button></div></div></article>
+      <article class="frame"><div class="frame-label">M36. GPS / Connectivity Degraded</div><div class="phone"><div class="status"><span>9:41</span><span>No Signal</span></div><div class="content"><div class="map"><span class="map-chip">Last known route</span><i class="street s1"></i><i class="street s2"></i><i class="route"></i><span class="driver-pin"></span></div><div class="notice warn"><strong>Trip still active</strong><p>GPS or network is degraded. Retry or open external navigation.</p></div><div class="actions equal"><button class="button">Retry</button><button class="button secondary">External nav</button></div></div></div></article>
+      <article class="frame"><div class="frame-label">M37. Dropoff Arrival With Issue Action</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="top"><span class="pill good">Arrived</span><span class="pill">Dropoff</span></div><div class="map"><span class="map-chip">810 Madison St</span><i class="street s1"></i><i class="street s2"></i><span class="pin drop"></span><span class="driver-pin"></span></div><div class="sheet"><h3 class="sheet-title">Complete the ride?</h3><div class="row"><span>Issue action</span><strong>Inaccessible dropoff</strong></div><div class="row"><span>Rider</span><strong>Maya</strong></div></div><div class="actions"><button class="button secondary">Report issue</button><button class="button accent">Complete ride</button></div></div></div></article>
+      <article class="frame"><div class="frame-label">M38. Complete Ride</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="hero"><div class="kicker">Finish trip</div><h2 class="title">Confirm rider exited</h2><p class="subtitle">Complete after the rider is safely out of the vehicle.</p></div><div class="actions"><button class="button secondary">Report issue</button><button class="button accent">Complete ride</button></div></div></div></article>
+    </section>
+
+    <h2 class="section-title">Post-Trip And Earnings</h2>
+    <section class="gallery">
+      <article class="frame"><div class="frame-label">M39. Trip Complete</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="hero"><div class="kicker">Trip complete</div><h2 class="title">Ride finished</h2><p class="subtitle">Earnings are being finalized.</p></div><button class="button accent">Continue</button></div></div></article>
+      <article class="frame"><div class="frame-label">M40. Rate Rider</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="title-block"><div class="kicker">Rate rider</div><h2 class="title">How was Maya?</h2><p class="subtitle">Feedback reasons appear only for low ratings or issues.</p></div><div class="chips"><span class="chip active">★</span><span class="chip active">★</span><span class="chip active">★</span><span class="chip active">★</span><span class="chip active">★</span></div><button class="button accent">Submit rating</button></div></div></article>
+      <article class="frame"><div class="frame-label">M41. Trip Earnings Summary</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="top"><span class="pill good">Paid</span><span class="pill">Trip complete</span></div><div class="hero"><div class="kicker">Trip earnings</div><div class="amount">$24.86</div><p class="subtitle">Tip updates appear later as notifications, not a full screen.</p></div><div class="sheet"><div class="row"><span>Base fare</span><strong>$18.72</strong></div><div class="row"><span>Bonus / fees</span><strong>$6.14</strong></div><div class="row total"><span>Total</span><strong>$24.86</strong></div></div><div class="actions"><button class="button secondary">Report issue</button><button class="button accent">Return online</button></div></div></div></article>
+      <article class="frame"><div class="frame-label">M42. Report Trip Issue</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="title-block"><div class="kicker">Trip issue</div><h2 class="title">Report a problem</h2><p class="subtitle">Routes into the same issue category model used by Help.</p></div><div class="list"><div class="item">Fare issue</div><div class="item">Rider issue</div><div class="item">Route / map</div><div class="item">Safety</div></div><button class="button">Continue</button></div></div></article>
+      <article class="frame"><div class="frame-label">M43. Return Online / Go Offline</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="hero"><div class="kicker">Next step</div><h2 class="title">Keep driving?</h2><p class="subtitle">Return online or end this driving session.</p></div><div class="actions equal"><button class="button accent">Return online</button><button class="button secondary">Go offline</button></div></div></div></article>
+      <article class="frame"><div class="frame-label">M44. Earnings Overview</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="top"><div class="brand"><span class="mark">A</span><span>APEX</span></div><span class="pill">Earnings</span></div><div class="hero"><div class="kicker">Today</div><div class="amount">$133.10</div><p class="subtitle">7 trips · 4h 02m online.</p></div><div class="notice good"><strong>Safe driving bonus eligible</strong><p>Driving score 86 keeps this week on track.</p></div><div class="list"><div class="item">Trip list <strong>›</strong></div><div class="item">Cash out <span>$128.85 available</span><strong>›</strong></div><div class="item">Payout method <strong>›</strong></div></div><nav class="bottom-nav"><span class="nav-item"><b>⌁</b>Drive</span><span class="nav-item active"><b>$</b>Earnings</span><span class="nav-item"><b>○</b>Account</span></nav></div></div></article>
+      <article class="frame"><div class="frame-label">M45. Trip List</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="title-block"><div class="kicker">Trips</div><h2 class="title">Completed trips</h2><p class="subtitle">Open any trip for fare details.</p></div><div class="list"><div class="item">Market St to West Loop <strong>$24.86</strong></div><div class="item">River North to Loop <strong>$18.20</strong></div><div class="item">Airport area <strong>$31.40</strong></div></div></div></div></article>
+      <article class="frame"><div class="frame-label">M46. Trip Earnings Detail</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="sheet"><h3 class="sheet-title">Market St to West Loop</h3><div class="row"><span>Base fare</span><strong>$18.72</strong></div><div class="row"><span>Bonus / fees</span><strong>$6.14</strong></div><div class="row total"><span>Total</span><strong>$24.86</strong></div></div><button class="button secondary">Request review</button></div></div></article>
+      <article class="frame"><div class="frame-label">M47. Cash Out</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="hero"><div class="kicker">Available balance</div><div class="amount">$128.85</div><p class="subtitle">Instant payout to debit card.</p></div><div class="sheet"><div class="row"><span>Fee</span><strong>$0.85</strong></div><div class="row"><span>You receive</span><strong>$128.00</strong></div></div><button class="button accent">Confirm cash out</button></div></div></article>
+      <article class="frame"><div class="frame-label">M48. Payout Method</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="title-block"><div class="kicker">Payouts</div><h2 class="title">Where earnings go</h2><p class="subtitle">Manage bank or debit payout method.</p></div><div class="list"><div class="item">Debit card · 4482 <span>Instant cash out</span></div><div class="item">Bank account · 1029 <span>Weekly payout</span></div><div class="item">Add payout method <strong>›</strong></div></div></div></div></article>
+    </section>
+
+    <h2 class="section-title">Account, Documents, Settings</h2>
+    <section class="gallery">
+      <article class="frame"><div class="frame-label">M49. Account Menu</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="top"><div class="brand"><span class="mark">A</span><span>APEX</span></div><span class="pill">Account</span></div><div class="hero"><div class="kicker">Driver account</div><h2 class="title">Jeffrey W.</h2><p class="subtitle">4.92 rating · Camry ABC-123</p></div><div class="list"><div class="item">Safe driving score <span>86 · bonus eligible</span><strong>›</strong></div><div class="item">Vehicles and documents <strong>›</strong></div><div class="item">Settings <strong>›</strong></div><div class="item">Safety <strong>›</strong></div><div class="item">Help <strong>›</strong></div></div><nav class="bottom-nav"><span class="nav-item"><b>⌁</b>Drive</span><span class="nav-item"><b>$</b>Earnings</span><span class="nav-item active"><b>○</b>Account</span></nav></div></div></article>
+      <article class="frame"><div class="frame-label">M50. Vehicle List</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="title-block"><div class="kicker">Vehicles</div><h2 class="title">Choose your vehicle</h2><p class="subtitle">Only eligible vehicles can go online.</p></div><div class="list"><div class="item">Toyota Camry · ABC-123 <span>Active</span></div><div class="item">Honda CR-V · XYZ-882 <span>Docs needed</span></div></div><button class="button">Add vehicle</button></div></div></article>
+      <article class="frame"><div class="frame-label">M51. Vehicle Detail</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="hero"><div class="kicker">Active vehicle</div><h2 class="title">Toyota Camry</h2><p class="subtitle">ABC-123 · 2021 · Silver</p></div><div class="sheet"><div class="row"><span>Eligibility</span><strong>Standard, Comfort</strong></div><div class="row"><span>Documents</span><strong>Insurance expiring soon</strong></div></div><button class="button">Edit vehicle</button></div></div></article>
+      <article class="frame"><div class="frame-label">M52. Unified Document Checklist</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="top"><span class="pill">Back</span><span class="pill warn">Documents</span></div><div class="title-block"><div class="kicker">Eligibility</div><h2 class="title">Documents</h2><p class="subtitle">Driver and vehicle documents use one status pattern.</p></div><div class="list"><div class="item">Driver license <span>Approved</span></div><div class="item">Background check <span>Reviewing</span></div><div class="item">Insurance <span>Expires July 12</span></div><div class="item">Registration <span>Approved</span></div></div><button class="button accent">Update document</button></div></div></article>
+      <article class="frame"><div class="frame-label">M53. Upload Document</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="title-block"><div class="kicker">Upload</div><h2 class="title">Update insurance</h2><p class="subtitle">Generic document upload for driver and vehicle docs.</p></div><div class="upload"><strong>Camera or file upload</strong><br>Add clear document photo</div><button class="button accent">Submit</button></div></div></article>
+      <article class="frame"><div class="frame-label">M54. Document Review State</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="hero"><div class="kicker">Document state</div><h2 class="title">Insurance under review</h2><p class="subtitle">The same frame handles pending, approved, or rejected status messaging.</p></div><div class="notice warn"><strong>Expected timing</strong><p>Most reviews complete within 24 hours.</p></div><button class="button">Back to documents</button></div></div></article>
+      <article class="frame"><div class="frame-label">M55. Document Expiring / Vehicle Ineligible</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="hero danger"><div class="kicker">Eligibility warning</div><h2 class="title">Insurance expires July 12</h2><p class="subtitle">If expired, this vehicle cannot go online.</p></div><div class="actions equal"><button class="button accent">Update now</button><button class="button secondary">Switch vehicle</button></div></div></div></article>
+      <article class="frame"><div class="frame-label">M56. Settings Overview</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="title-block"><div class="kicker">Settings</div><h2 class="title">App controls</h2><p class="subtitle">Navigation, notifications, permissions, language, accessibility, privacy.</p></div><div class="list"><div class="item">Navigation settings</div><div class="item">Notification settings</div><div class="item">Location permissions</div><div class="item">Privacy and legal</div></div></div></div></article>
+      <article class="frame"><div class="frame-label">M57. Navigation Settings</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="title-block"><div class="kicker">Navigation</div><h2 class="title">Choose routing app</h2><p class="subtitle">Use in-app navigation or an external app.</p></div><div class="chips"><span class="chip active">In-app</span><span class="chip">Apple Maps</span><span class="chip">Google Maps</span></div><button class="button accent">Save</button></div></div></article>
+      <article class="frame"><div class="frame-label">M58. Notification Settings</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="title-block"><div class="kicker">Notifications</div><h2 class="title">Choose alerts</h2><p class="subtitle">Critical ride and account alerts remain prominent.</p></div><div class="list"><div class="item">Ride offers <span>Required online</span></div><div class="item">Earnings <span>On</span></div><div class="item">Documents <span>On</span></div><div class="item">Support replies <span>On</span></div></div><button class="button accent">Save</button></div></div></article>
+    </section>
+
+    <h2 class="section-title">Safety And Help</h2>
+    <section class="gallery">
+      <article class="frame"><div class="frame-label">M59. Safe Driving Score</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="top"><span class="pill">Back</span><span class="pill good">Bonus eligible</span></div><div class="score-card"><div class="score-ring"><div><strong>86</strong><br><span>SAFE SCORE</span></div></div><h2 class="title">Safe driving bonus eligible</h2><p class="subtitle">GPS signals show this week is within the safe driving band.</p></div><div class="list"><div class="metric"><div class="metric-head"><span>Speed limit respected</span><strong>92</strong></div><div class="meter"><i style="width:92%"></i></div></div><div class="metric"><div class="metric-head"><span>Stopping at stop signs</span><strong>84</strong></div><div class="meter"><i style="width:84%"></i></div></div><div class="metric"><div class="metric-head"><span>Not swerving</span><strong>88</strong></div><div class="meter"><i style="width:88%"></i></div></div><div class="metric"><div class="metric-head"><span>Dangerous driving score</span><strong>Low</strong></div><div class="meter warn"><i style="width:18%"></i></div></div></div><div class="notice good"><strong>Eligible for safe driving bonus</strong><p>Keep the score in the green band through the end of the bonus period.</p></div></div></div></article>
+      <article class="frame"><div class="frame-label">M60. Safety Hub</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="top"><div class="brand"><span class="mark">A</span><span>APEX</span></div><span class="pill bad">Safety</span></div><div class="title-block"><div class="kicker">Safety</div><h2 class="title">Fast help and reporting</h2><p class="subtitle">Emergency stays prominent; score and reporting live here.</p></div><div class="emergency">Emergency assistance</div><div class="list"><div class="item">Safe driving score <span>86 · bonus eligible</span><strong>›</strong></div><div class="item">Report safety issue <strong>›</strong></div><div class="item">Community guidelines <strong>›</strong></div></div></div></div></article>
+      <article class="frame"><div class="frame-label">M61. Emergency Assistance</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="hero danger"><div class="kicker">Emergency</div><h2 class="title">Call emergency services?</h2><p class="subtitle">Location and trip context are visible.</p></div><div class="map"><span class="map-chip">Current location</span><i class="street s1"></i><i class="street s2"></i><span class="driver-pin"></span></div><button class="button danger">Call emergency services</button></div></div></article>
+      <article class="frame"><div class="frame-label">M62. Report Safety Issue</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="title-block"><div class="kicker">Safety report</div><h2 class="title">What happened?</h2><p class="subtitle">Safety reports use a fast lane into support.</p></div><div class="chips"><span class="chip active">Threat</span><span class="chip">Harassment</span><span class="chip">Unsafe behavior</span><span class="chip">Accident</span></div><div class="textarea">Add safety details</div><button class="button danger">Submit report</button></div></div></article>
+      <article class="frame"><div class="frame-label">M63. Help Home</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="title-block"><div class="kicker">Help</div><h2 class="title">How can we help?</h2><p class="subtitle">Search or choose a support starting point.</p></div><div class="input"><span>Search help</span><strong>⌕</strong></div><div class="list"><div class="item">Recent trip help</div><div class="item">Account help</div><div class="item">Document help</div><div class="item">Safety help</div></div></div></div></article>
+      <article class="frame"><div class="frame-label">M64. Select Trip For Help</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="title-block"><div class="kicker">Recent trips</div><h2 class="title">Which trip needs help?</h2><p class="subtitle">Pick the relevant trip before choosing an issue category.</p></div><div class="list"><div class="item">Market St to West Loop <strong>$24.86</strong></div><div class="item">River North to Loop <strong>$18.20</strong></div><div class="item">Airport area <strong>$31.40</strong></div></div></div></div></article>
+      <article class="frame"><div class="frame-label">M65. Unified Trip Issue Router</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="top"><span class="pill">Back</span><span class="pill">Trip help</span></div><div class="title-block"><div class="kicker">One support model</div><h2 class="title">What do you need help with?</h2><p class="subtitle">Fare, rider, lost item, damage, route, cancellation, and safety start here.</p></div><div class="list"><div class="item">Fare issue <strong>›</strong></div><div class="item">Rider issue / block rider <strong>›</strong></div><div class="item">Lost item <strong>›</strong></div><div class="item">Damage / cleaning <strong>›</strong></div><div class="item">Safety issue <strong>›</strong></div></div></div></div></article>
+      <article class="frame"><div class="frame-label">M66. Issue Detail Form</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="top"><span class="pill">Back</span><span class="pill">Issue form</span></div><div class="title-block"><div class="kicker">Fare issue</div><h2 class="title">Tell us what happened</h2><p class="subtitle">The same form pattern supports fare, rider, lost item, and damage claims.</p></div><div class="chips"><span class="chip active">Missing bonus</span><span class="chip">Wrong fare</span><span class="chip">Other</span></div><div class="upload"><strong>Optional attachment</strong><br>Photos appear for damage/cleaning only</div><div class="textarea">Add details for support</div><button class="button">Submit issue</button></div></div></article>
+      <article class="frame"><div class="frame-label">M67. Support Thread</div><div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content"><div class="top"><span class="pill">Back</span><span class="pill good">Open</span></div><div class="sheet flush"><div class="sheet-head"><h3 class="sheet-title">Support case #5904</h3><span class="pill">Fare</span></div><div class="row"><span>Status</span><strong>Waiting on support</strong></div></div><div class="thread"><div class="bubble">We are reviewing the bonus eligibility now.</div><div class="bubble me">The offer showed +$2.50 when I accepted.</div><div class="bubble">Got it. We will update this case once review is complete.</div></div><div class="input"><span>Message support</span><strong>Send</strong></div></div></div></article>
+    </section>
+    </section>
+
+    <section class="tab-panel" id="flows-panel">
+      <h2 class="section-title">User Flows</h2>
+      <div class="flow-grid">
+        <article class="flow-card">
+          <h3>1. First Launch And Routing</h3>
+          <p>The app determines whether the driver is signed out, partially activated, pending review, blocked, or ready to drive.</p>
+          <ol>
+            <li>M01 Splash checks session and driver eligibility.</li>
+            <li>Signed-out drivers go to M02 Sign In and M03 Verification Code.</li>
+            <li>Unactivated drivers route to M04-M14 based on the next required activation step.</li>
+            <li>Approved drivers land on M15 Offline Map.</li>
+          </ol>
+        </article>
+
+        <article class="flow-card">
+          <h3>2. Driver Activation</h3>
+          <p>The driver completes identity, vehicle, document, consent, and terms requirements before receiving ride requests.</p>
+          <ol>
+            <li>M05 shows the activation checklist and current step status.</li>
+            <li>M06-M11 collect identity, license, background consent, vehicle, insurance, and terms.</li>
+            <li>M12 holds the driver in review while checks are pending.</li>
+            <li>M13 handles rejected documents with a specific reason and resubmit action.</li>
+            <li>M14 confirms activation and sends the driver to Drive.</li>
+          </ol>
+        </article>
+
+        <article class="flow-card">
+          <h3>3. Go Online</h3>
+          <p>The driver moves from offline to online only when location, vehicle, account, and document requirements pass.</p>
+          <ol>
+            <li>M15 shows the offline map and Go Online action.</li>
+            <li>M16 verifies permissions, vehicle eligibility, and account status.</li>
+            <li>M17 blocks the driver with the exact reason and fix path when requirements fail.</li>
+            <li>M18 confirms the driver is online and waiting for requests.</li>
+          </ol>
+        </article>
+
+        <article class="flow-card">
+          <h3>4. Ride Request Decision</h3>
+          <p>One request template handles standard, upfront, long-trip, multi-stop, and bonus variants without separate top-level screens.</p>
+          <ol>
+            <li>M19 presents fare, pickup distance, trip estimate, rider confidence, and variant badges.</li>
+            <li>Decline returns to M21 as a lightweight toast state.</li>
+            <li>Expired, missed, or unavailable-after-accept outcomes also resolve through M21.</li>
+            <li>Accept moves to M20 and then the pickup route.</li>
+          </ol>
+        </article>
+
+        <article class="flow-card">
+          <h3>5. Pickup</h3>
+          <p>The pickup flow keeps navigation primary while routing contact, cancellation, pin issues, and no-show logic into supporting states.</p>
+          <ol>
+            <li>M24 guides the driver to pickup.</li>
+            <li>M25 exposes pickup details, pin issue reporting, contact, and cancel actions.</li>
+            <li>M26 supports masked call and quick replies.</li>
+            <li>M27 shows arrived/waiting timing and no-show eligibility.</li>
+            <li>M28 confirms the correct rider or PIN before starting.</li>
+            <li>M29-M31 cover cancellation, no-show, and rider-cancelled outcomes.</li>
+          </ol>
+        </article>
+
+        <article class="flow-card">
+          <h3>6. Active Trip</h3>
+          <p>The active trip flow keeps navigation focused while surfacing safety, route issues, connectivity degradation, and trip completion.</p>
+          <ol>
+            <li>M32 is the main in-trip navigation state.</li>
+            <li>M33 contains trip details, route issue entry, early end, and support paths.</li>
+            <li>M34 gives in-trip safety access.</li>
+            <li>M35 handles destination changes.</li>
+            <li>M36 handles degraded GPS or connectivity.</li>
+            <li>M37-M38 confirm dropoff and complete the ride.</li>
+          </ol>
+        </article>
+
+        <article class="flow-card">
+          <h3>7. Post-Trip</h3>
+          <p>After completion, the driver can rate, review earnings, report an issue, or return online.</p>
+          <ol>
+            <li>M39 confirms the trip is finished and earnings are processing.</li>
+            <li>M40 collects rider rating and only asks for reasons when needed.</li>
+            <li>M41 summarizes fare, bonus, fees, and total earnings.</li>
+            <li>M42 routes trip issues into the unified support model.</li>
+            <li>M43 lets the driver return online or end the session.</li>
+          </ol>
+        </article>
+
+        <article class="flow-card">
+          <h3>8. Earnings And Payouts</h3>
+          <p>Earnings stay intentionally compact: today summary, trip list, trip detail, cash out, and payout method.</p>
+          <ol>
+            <li>M44 shows today earnings and safe driving bonus eligibility.</li>
+            <li>M45 lists completed trips.</li>
+            <li>M46 shows fare detail for one trip and links to review.</li>
+            <li>M47 confirms instant cash out amount and fee.</li>
+            <li>M48 manages payout destination.</li>
+          </ol>
+        </article>
+
+        <article class="flow-card">
+          <h3>9. Account, Vehicle, Documents, Settings</h3>
+          <p>Account is the home for driver identity, vehicles, document health, settings, safety, and help.</p>
+          <ol>
+            <li>M49 is the account menu and includes the safe driving score entry.</li>
+            <li>M50-M51 manage active and ineligible vehicles.</li>
+            <li>M52-M55 use one document pattern for approved, reviewing, rejected, expiring, and blocked states.</li>
+            <li>M56-M58 cover settings, navigation app choice, and notifications.</li>
+          </ol>
+        </article>
+
+        <article class="flow-card">
+          <h3>10. Safe Driving Score</h3>
+          <p>GPS-derived safety scoring is visible but not overly forensic, with enough detail for trust and bonus eligibility.</p>
+          <ol>
+            <li>M59 shows the top-level safe driving score.</li>
+            <li>The score breaks down speed limit respected, stopping at stop signs, not swerving, and dangerous driving score.</li>
+            <li>Green/red eligibility indicates whether the driver qualifies for the safe driving bonus.</li>
+            <li>M44, M49, and M60 provide entry points into the score.</li>
+          </ol>
+        </article>
+
+        <article class="flow-card">
+          <h3>11. Safety And Emergency</h3>
+          <p>Safety actions stay reachable from Drive, Pickup, Active Trip, Account, and Help.</p>
+          <ol>
+            <li>M60 is the safety hub.</li>
+            <li>M61 prioritizes emergency assistance and current location context.</li>
+            <li>M62 collects safety issue reports.</li>
+            <li>Emergency actions should never be disabled.</li>
+          </ol>
+        </article>
+
+        <article class="flow-card">
+          <h3>12. Help And Support</h3>
+          <p>One support model handles fares, rider issues, lost items, damage, route problems, cancellation, and safety issues.</p>
+          <ol>
+            <li>M63 starts with search and support categories.</li>
+            <li>M64 lets the driver pick a recent trip when the issue is trip-specific.</li>
+            <li>M65 routes the issue category.</li>
+            <li>M66 captures issue details and optional evidence.</li>
+            <li>M67 keeps the support case conversation in one thread.</li>
+          </ol>
+        </article>
+      </div>
+    </section>
+
+  </main>
+  <script>
+    const screenDescriptions = {
+      M01: "Initial routing state. Checks session, activation status, and whether the driver should land in sign in, review, or Drive.",
+      M02: "Phone-based sign in or account start. The primary action is available once the number is valid.",
+      M03: "Verification code entry. Handles code confirmation, resend timing, and invalid or expired code states.",
+      M04: "Location permission request. Explains why precise location is required before driving.",
+      M05: "Activation checklist. Shows the driver what is complete, required, pending, or blocked.",
+      M06: "Identity verification start. Introduces ID capture and selfie matching before activation can finish.",
+      M07: "License upload. Collects a clear license image and expiration date with validation.",
+      M08: "Background check consent. Captures required consent and sets expectation for review.",
+      M09: "Vehicle entry. Adds the active car used for ride eligibility and matching.",
+      M10: "Reusable vehicle document upload. Covers insurance, registration, and future document updates.",
+      M11: "Terms acceptance. Groups platform, privacy, payment, and safety terms before activation.",
+      M12: "Activation review. Shows pending identity, document, and background check status.",
+      M13: "Document rejection state. Gives a specific rejection reason and one clear resubmit path.",
+      M14: "Activation success. Confirms the driver is approved and can go to Drive.",
+      M15: "Offline Drive map. Lets the driver review vehicle status and start the online check.",
+      M16: "Go-online verification. Checks location, account, vehicle, and document requirements.",
+      M17: "Go-online blocker. Explains why the driver cannot receive requests and routes to the fix.",
+      M18: "Online waiting map. Confirms the driver is available and waiting for ride requests.",
+      M19: "Ride request template. Presents fare, pickup, trip estimate, rider signal, and request variant badges.",
+      M20: "Accepted request. Confirms the match and prepares navigation to pickup.",
+      M21: "Request outcome toast. Covers declined, missed, expired, unavailable, and failed-accept states.",
+      M22: "Go-offline confirmation. Prevents accidental session end and summarizes current session progress.",
+      M23: "Session summary. Shows earnings, online time, and completed trips after going offline.",
+      M24: "Navigate to pickup. Keeps route guidance primary while preserving contact and safety access.",
+      M25: "Pickup details. Shows address, rider, notes, contact, pin issue, and cancellation actions.",
+      M26: "Contact rider. Supports masked calling and quick replies without a full chat surface.",
+      M27: "Arrived and waiting. Tracks wait time, rider contact, start ride, and no-show eligibility.",
+      M28: "Start ride guard. Confirms the rider or PIN before the trip begins.",
+      M29: "Cancel before pickup. Captures the reason for pickup cancellation or wrong-rider issues.",
+      M30: "No-show cancellation. Confirms fee eligibility after required wait and contact conditions.",
+      M31: "Rider cancelled. Explains the cancellation and returns the driver to online availability.",
+      M32: "Active trip navigation. Main in-trip state focused on route, ETA, destination, and safety access.",
+      M33: "Active trip details. Holds route issue, end-early, rider, destination, and support actions.",
+      M34: "In-trip safety tools. Gives quick access to emergency help, reporting, and support.",
+      M35: "Destination changed. Confirms a rider-initiated route update and recalculated ETA.",
+      M36: "GPS or connectivity degraded. Keeps the trip active while offering retry and external navigation.",
+      M37: "Dropoff arrival. Confirms arrival and provides issue reporting before completion.",
+      M38: "Complete ride. Final confirmation that the rider has exited and the trip can close.",
+      M39: "Trip complete. Transition state while earnings are finalized.",
+      M40: "Rate rider. Captures rider rating with extra reasons only when needed.",
+      M41: "Trip earnings summary. Shows final fare components and lets the driver report an issue or return online.",
+      M42: "Report trip issue. Routes fare, rider, route, and safety problems into support.",
+      M43: "Next step choice. Lets the driver continue working or end the driving session.",
+      M44: "Earnings overview. Summarizes today's earnings, cash-out access, and safe driving bonus eligibility.",
+      M45: "Trip list. Lists completed trips for review and detail lookup.",
+      M46: "Trip earnings detail. Breaks down one completed trip and offers fare review.",
+      M47: "Cash out. Confirms available balance, fee, and instant payout amount.",
+      M48: "Payout method. Manages debit card and bank destinations for earnings.",
+      M49: "Account menu. Entry point for safe driving score, vehicles, documents, settings, safety, and help.",
+      M50: "Vehicle list. Shows active and ineligible vehicles with status reasons.",
+      M51: "Vehicle detail. Summarizes vehicle eligibility, ride types, and document health.",
+      M52: "Document checklist. One pattern for driver and vehicle document states.",
+      M53: "Upload document. Generic upload surface for document updates and resubmits.",
+      M54: "Document review state. Shows pending, approved, or rejected messaging after upload.",
+      M55: "Document expiring or ineligible. Warns when a vehicle may be blocked from going online.",
+      M56: "Settings overview. Groups navigation, notifications, permissions, language, accessibility, privacy, and legal.",
+      M57: "Navigation settings. Lets the driver choose in-app or external navigation.",
+      M58: "Notification settings. Controls noncritical alerts while preserving ride-critical notifications.",
+      M59: "Safe driving score. Shows top score, metric breakdown, and red or green bonus eligibility.",
+      M60: "Safety hub. Central safety entry with emergency, score, reporting, and guidelines.",
+      M61: "Emergency assistance. Prioritizes emergency calling and current location context.",
+      M62: "Report safety issue. Captures issue type and detail for urgent safety support.",
+      M63: "Help home. Starts support through search, categories, and recent issue paths.",
+      M64: "Select trip for help. Connects a support issue to the correct recent trip.",
+      M65: "Unified trip issue router. Routes fare, rider, lost item, damage, route, cancellation, and safety problems.",
+      M66: "Issue detail form. Captures the issue reason, details, and optional evidence.",
+      M67: "Support thread. Keeps support status, messages, and replies in a single case thread."
+    };
+
+    document.querySelectorAll(".frame-label").forEach((label) => {
+      const id = label.textContent.trim().match(/^M\d+/)?.[0];
+      const description = id ? screenDescriptions[id] : "";
+      if (!description) return;
+      const note = document.createElement("div");
+      note.className = "frame-note";
+      note.textContent = description;
+      label.insertAdjacentElement("afterend", note);
+    });
+  </script>
+</body>
+</html>
