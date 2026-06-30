@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>APEX Rider App Wireframes</title>
+  <style>
+    :root {
+      --page: #eee9df;
+      --phone: #fbfaf7;
+      --ink: #171713;
+      --muted: #686b63;
+      --line: #d8d2c7;
+      --soft: #f0ede6;
+      --card: #fff;
+      --map: #e1e8dd;
+      --street: #c2ccbd;
+      --accent: #f38a18;
+      --accent-soft: #fff0dc;
+      --success: #1e7049;
+      --success-soft: #e1f1e7;
+      --warning: #875900;
+      --warning-soft: #f7ead0;
+      --danger: #b94728;
+      --danger-soft: #f7e1d9;
+      --shadow: 0 22px 60px rgba(42,36,27,.14);
+      --font: "Aptos", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: radial-gradient(circle at 12% 0%, rgba(243,138,24,.12), transparent 28rem), linear-gradient(135deg, #f8f6f1, var(--page));
+      font-family: var(--font);
+    }
+    .page { width: min(1800px, calc(100vw - 40px)); margin: 0 auto; padding: 38px 0 64px; }
+    .brief { display: grid; grid-template-columns: minmax(320px, 650px) 1fr; gap: 28px; align-items: end; margin-bottom: 22px; }
+    h1 { margin: 0; font-size: 34px; line-height: 1.05; letter-spacing: 0; }
+    .brief p { margin: 12px 0 0; color: var(--muted); font-size: 15px; line-height: 1.5; max-width: 76ch; }
+    .legend { justify-self: end; display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+    .legend span { padding: 8px 12px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,.55); color: var(--muted); font-size: 12px; }
+    .tab-input { position: absolute; inline-size: 1px; block-size: 1px; opacity: 0; pointer-events: none; }
+    .tabs { display: inline-grid; grid-template-columns: repeat(2, minmax(132px, auto)); gap: 6px; padding: 6px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,.64); margin-bottom: 26px; }
+    .tab-label { min-height: 42px; display: grid; place-items: center; padding: 0 20px; border-radius: 999px; color: var(--muted); font-size: 13px; font-weight: 900; cursor: pointer; }
+    #tab-wireframes:checked ~ .tabs label[for="tab-wireframes"],
+    #tab-flows:checked ~ .tabs label[for="tab-flows"] { color: var(--ink); background: var(--accent-soft); box-shadow: inset 0 0 0 1px #f3c98f; }
+    .tab-panel { display: none; }
+    #tab-wireframes:checked ~ #wireframes-panel,
+    #tab-flows:checked ~ #flows-panel { display: block; }
+    .section-title { margin: 34px 0 18px; font-size: 22px; letter-spacing: 0; }
+    .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(390px, 1fr)); gap: 34px; align-items: start; }
+    .frame { display: grid; justify-items: center; gap: 10px; }
+    .frame-label { width: 390px; color: #3d3a33; font-weight: 850; font-size: 13px; }
+    .frame-note { width: 390px; margin-top: -4px; color: var(--muted); font-size: 12px; line-height: 1.38; }
+    .phone { width: 390px; height: 844px; overflow: hidden; position: relative; display: flex; flex-direction: column; border: 1px solid #e0dacf; border-radius: 34px; background: var(--phone); box-shadow: var(--shadow); }
+    .status { height: 58px; padding: 0 26px; display: flex; align-items: center; justify-content: space-between; font-size: 14px; font-weight: 800; }
+    .content { flex: 1; min-height: 0; padding: 12px 18px 18px; display: flex; flex-direction: column; gap: 14px; }
+    .top { display: flex; align-items: center; justify-content: space-between; min-height: 38px; gap: 12px; }
+    .brand { display: flex; align-items: center; gap: 9px; font-weight: 900; letter-spacing: .02em; }
+    .mark { width: 31px; height: 31px; border-radius: 11px; display: grid; place-items: center; background: var(--ink); color: #fff; font-size: 12px; font-weight: 900; }
+    .pill { display: inline-flex; align-items: center; gap: 7px; min-height: 30px; padding: 6px 10px; border-radius: 999px; color: var(--muted); background: var(--soft); font-size: 12px; font-weight: 800; white-space: nowrap; }
+    .pill.dark { color: #fff; background: var(--ink); }
+    .pill.good { color: var(--success); background: var(--success-soft); }
+    .pill.warn { color: var(--warning); background: var(--warning-soft); }
+    .pill.bad { color: var(--danger); background: var(--danger-soft); }
+    .title-block { display: grid; gap: 6px; }
+    .kicker { color: var(--muted); font-size: 11px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; }
+    .title { margin: 0; font-size: 27px; line-height: 1.08; letter-spacing: 0; font-weight: 780; }
+    .subtitle { color: var(--muted); font-size: 13px; line-height: 1.38; margin: 0; }
+    .hero { min-height: 162px; border: 1px solid var(--line); border-radius: 28px; background: linear-gradient(140deg, rgba(243,138,24,.16), transparent 48%), var(--card); display: grid; align-content: center; gap: 10px; padding: 22px; box-shadow: 0 14px 36px rgba(42,36,27,.10); }
+    .hero.danger { background: linear-gradient(140deg, rgba(185,71,40,.18), transparent 50%), var(--card); border-color: #edc9be; }
+    .amount { font-size: 46px; line-height: 1; font-weight: 900; letter-spacing: 0; }
+    .map { position: relative; overflow: hidden; min-height: 298px; border: 1px solid var(--line); border-radius: 24px; background: linear-gradient(7deg, transparent 24%, #fff 24.8%, #fff 27.6%, transparent 28.4%), linear-gradient(96deg, transparent 35%, rgba(255,255,255,.8) 35.7%, rgba(255,255,255,.8) 38.5%, transparent 39.2%), var(--map); }
+    .map.tall { min-height: 390px; }
+    .map.short { min-height: 224px; }
+    .street, .route { position: absolute; height: 5px; border-radius: 999px; transform-origin: left center; }
+    .street { background: var(--street); opacity: .82; }
+    .route { width: 196px; left: 84px; top: 158px; transform: rotate(-20deg); background: var(--ink); height: 7px; }
+    .s1 { width: 180px; left: 34px; top: 64px; transform: rotate(13deg); }
+    .s2 { width: 230px; left: 116px; top: 130px; transform: rotate(-19deg); }
+    .s3 { width: 160px; left: 192px; top: 220px; transform: rotate(15deg); }
+    .zone { position: absolute; width: 130px; height: 86px; right: 42px; bottom: 76px; border-radius: 999px; background: rgba(243,138,24,.26); border: 1px solid rgba(243,138,24,.28); }
+    .rider-pin, .driver-pin { position: absolute; width: 34px; height: 34px; left: 50%; top: 54%; transform: translate(-50%, -50%); border: 7px solid rgba(23,23,19,.14); border-radius: 999px; background: var(--ink); box-shadow: 0 4px 14px rgba(23,23,19,.24); }
+    .rider-pin::after { content: ""; position: absolute; width: 10px; height: 10px; left: 5px; top: 5px; border-radius: 999px; background: var(--accent); }
+    .driver-pin { left: 32%; top: 64%; background: var(--accent); }
+    .pin { position: absolute; width: 25px; height: 25px; right: 70px; top: 118px; border-radius: 999px; border: 4px solid #fff; background: var(--accent); box-shadow: 0 4px 12px rgba(23,23,19,.2); }
+    .pin.drop { right: 48px; top: 66px; background: var(--ink); }
+    .map-chip { position: absolute; left: 14px; top: 14px; padding: 7px 10px; border-radius: 999px; color: var(--ink); background: rgba(255,255,255,.84); border: 1px solid rgba(216,210,199,.9); font-size: 12px; font-weight: 800; }
+    .sheet { border: 1px solid var(--line); border-radius: 24px; background: var(--card); padding: 16px; box-shadow: 0 14px 36px rgba(42,36,27,.10); display: grid; gap: 12px; }
+    .sheet.flush { box-shadow: none; }
+    .sheet-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .sheet-title { font-size: 17px; font-weight: 850; margin: 0; }
+    .rows { display: grid; gap: 8px; }
+    .row { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 29px; font-size: 13px; }
+    .row span:first-child { color: var(--muted); }
+    .row strong { font-size: 13px; text-align: right; }
+    .row.total { border-top: 1px solid var(--line); padding-top: 11px; margin-top: 3px; }
+    .row.total strong { font-size: 20px; }
+    .list { display: grid; gap: 9px; }
+    .item { min-height: 52px; border: 1px solid var(--line); border-radius: 16px; background: var(--card); display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 12px; padding: 10px 12px; font-size: 13px; font-weight: 800; }
+    .item span, .item small { display: block; color: var(--muted); font-size: 12px; font-weight: 760; margin-top: 2px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 9px; }
+    .chip { min-height: 36px; display: inline-flex; align-items: center; padding: 8px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--card); font-size: 13px; font-weight: 800; color: var(--muted); }
+    .chip.active { color: var(--ink); background: var(--accent-soft); border-color: #f3c98f; }
+    .button { min-height: 52px; border: 0; border-radius: 17px; background: var(--ink); color: #fff; font-size: 15px; font-weight: 850; display: flex; align-items: center; justify-content: center; width: 100%; }
+    .button.accent { background: var(--accent); color: var(--ink); }
+    .button.secondary { background: var(--soft); color: var(--ink); border: 1px solid var(--line); }
+    .button.danger { background: var(--danger); }
+    .actions { display: grid; grid-template-columns: 112px 1fr; gap: 10px; }
+    .actions.equal { grid-template-columns: 1fr 1fr; }
+    .notice { border: 1px solid var(--line); background: var(--soft); border-radius: 22px; padding: 16px; display: grid; gap: 6px; }
+    .notice.good { border-color: #c4dfce; background: var(--success-soft); }
+    .notice.warn { border-color: #ead6b0; background: var(--warning-soft); }
+    .notice.bad { border-color: #edc9be; background: var(--danger-soft); }
+    .notice strong { font-size: 16px; }
+    .notice p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.4; }
+    .input { min-height: 52px; border: 1px solid var(--line); border-radius: 17px; background: var(--card); display: flex; align-items: center; justify-content: space-between; padding: 0 14px; color: var(--muted); font-size: 13px; }
+    .textarea { min-height: 96px; border: 1px solid var(--line); border-radius: 18px; background: var(--card); padding: 13px; color: var(--muted); font-size: 13px; }
+    .emergency { min-height: 86px; border-radius: 24px; background: var(--danger); color: #fff; display: grid; place-items: center; font-size: 21px; font-weight: 900; }
+    .thread { flex: 1; min-height: 0; display: grid; align-content: end; gap: 10px; border: 1px solid var(--line); border-radius: 24px; background: var(--soft); padding: 14px; }
+    .bubble { max-width: 84%; padding: 10px 12px; border-radius: 17px; background: #fff; font-size: 13px; line-height: 1.35; }
+    .bubble.me { justify-self: end; color: #fff; background: var(--ink); }
+    .bottom-nav { margin-top: auto; height: 60px; border: 1px solid var(--line); border-radius: 30px; background: rgba(255,255,255,.86); display: grid; grid-template-columns: repeat(4, 1fr); align-items: center; padding: 6px; box-shadow: 0 10px 24px rgba(42,36,27,.10); }
+    .nav-item { height: 48px; border-radius: 24px; display: grid; place-items: center; color: var(--muted); font-size: 10px; font-weight: 800; }
+    .nav-item.active { color: var(--ink); background: var(--accent-soft); }
+    .nav-item b { display: block; font-size: 16px; line-height: 1; color: inherit; }
+    .flow-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 18px; align-items: start; }
+    .flow-card { border: 1px solid var(--line); border-radius: 24px; background: rgba(255,255,255,.66); padding: 20px; box-shadow: 0 12px 30px rgba(42,36,27,.08); }
+    .flow-card h3 { margin: 0 0 10px; font-size: 18px; letter-spacing: 0; }
+    .flow-card p { margin: 0 0 12px; color: var(--muted); font-size: 13px; line-height: 1.45; }
+    .flow-card ol { margin: 0; padding-left: 20px; display: grid; gap: 7px; color: #3d3a33; font-size: 13px; line-height: 1.45; }
+    .flow-card li::marker { font-weight: 900; color: var(--accent); }
+    @media (max-width: 900px) { .brief { grid-template-columns: 1fr; } .legend { justify-self: start; justify-content: flex-start; } .gallery { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="brief">
+      <div>
+        <h1>APEX Rider App Wireframes</h1>
+        <p>Pure rideshare consumer MVP screens collapsed from the full rider IA. The artifact focuses on core ride loops and captures nice-to-haves as deferred states.</p>
+      </div>
+      <div class="legend">
+        <span>64 screens</span>
+        <span>Core rider loop</span>
+        <span>MVP state map</span>
+      </div>
+    </section>
+
+    <input class="tab-input" type="radio" name="view" id="tab-wireframes" checked>
+    <input class="tab-input" type="radio" name="view" id="tab-flows">
+    <div class="tabs" role="tablist" aria-label="Wireframe views">
+      <label class="tab-label" for="tab-wireframes" role="tab">Wireframes</label>
+      <label class="tab-label" for="tab-flows" role="tab">Flows</label>
+    </div>
+
+    <section class="tab-panel" id="wireframes-panel"></section>
+    <section class="tab-panel" id="flows-panel">
+      <h2 class="section-title">User Flows</h2>
+      <div class="flow-grid" id="flow-grid"></div>
+    </section>
+  </main>
+
+  <script>
+    const sections = [
+      {
+        title: "Auth And First Run",
+        screens: [
+          { id: "M01", title: "Splash / Loading", type: "hero", kicker: "APEX", headline: "Loading rider app", sub: "Checking session, location, and app readiness.", notice: "Routes to sign in, first run, or Home.", note: "Initial routing state. Checks signed-in status and whether the rider should land in sign in, permissions, or Home." },
+          { id: "M02", title: "Welcome / Get Started", type: "hero", kicker: "Rider app", headline: "Go where you need to go", sub: "Phone-first onboarding for a pure rideshare rider account.", cta: "Get started", note: "Simple first-run entry without food, grocery, package, business, or driver signup paths." },
+          { id: "M03", title: "Phone Sign In", type: "form", kicker: "Sign in", headline: "Enter your mobile number", fields: ["Mobile number", "Country · US"], cta: "Continue", note: "Primary auth path. Social and email login remain secondary nice-to-haves." },
+          { id: "M04", title: "Verification Code", type: "form", kicker: "Security", headline: "Enter the code", sub: "We sent a six-digit code to your phone.", heroAmount: "123 456", cta: "Verify", note: "Handles invalid, expired, resend, and change-number states in one pattern." },
+          { id: "M05", title: "Name Entry", type: "form", kicker: "Profile", headline: "What should drivers call you?", fields: ["First name", "Last name"], cta: "Continue", note: "Required lightweight profile setup before requesting the first ride." },
+          { id: "M06", title: "Terms Acceptance", type: "list", kicker: "Before your first ride", headline: "Review and accept", items: ["Terms of use", "Privacy notice", "Community guidelines"], cta: "Accept and continue", note: "Groups legal acceptance into one first-run requirement." },
+          { id: "M07", title: "Location Permission", type: "hero", kicker: "Permission", headline: "Allow location for pickup", sub: "APEX uses precise location to find your pickup point and show nearby rides.", cta: "Allow location", secondary: "Not now", note: "Location is required to request a ride, but the education screen stays short." },
+          { id: "M08", title: "Notification Permission Contextual", type: "hero", kicker: "Ride updates", headline: "Know when your driver arrives", sub: "Enable alerts for arrival, messages, trip completion, payment, and support updates.", cta: "Enable notifications", secondary: "Maybe later", note: "Contextual permission prompt, not a hard first-run blocker." }
+        ]
+      },
+      {
+        title: "Home And Trip Planning",
+        screens: [
+          { id: "M09", title: "Home Map", type: "mapHome", chip: "Nearby drivers", sheet: "Where to?", rows: [["Pickup", "Current location"], ["Saved", "Home, Work"]], cta: "Search destination", nav: "Ride", note: "Main idle state for signed-in riders, centered on destination entry and pickup confidence." },
+          { id: "M10", title: "Location / GPS Unavailable", type: "mapNotice", state: "bad", headline: "Location unavailable", sub: "Enter pickup manually or update location permission in Settings.", cta: "Enter pickup", secondary: "Open Settings", note: "Covers no GPS, denied permission, weak signal, and manual pickup fallback." },
+          { id: "M11", title: "Destination Search", type: "search", kicker: "Plan ride", headline: "Where to?", fields: ["Pickup · 125 Market St", "Destination"], items: ["Home", "Work", "Set location on map"], note: "Search, saved places, and map selection start from one destination surface." },
+          { id: "M12", title: "Search Results And Recents", type: "list", kicker: "Results", headline: "Choose destination", items: ["810 Madison St · West Loop", "Airport Terminal 2", "River North Hotel", "Search on map"], cta: "Use selected place", note: "Combines results, recent destinations, saved places, and map fallback." },
+          { id: "M13", title: "Pickup Confirmation", type: "mapSheet", chip: "Pickup pin", sheet: "Confirm pickup", rows: [["Pickup", "125 Market St"], ["Note", "South entrance"], ["Walk", "1 min"]], cta: "Confirm pickup", note: "Reusable pickup state for current pickup, suggested pickup, nearby pickup, and pickup note." },
+          { id: "M14", title: "Set Pickup On Map", type: "mapSheet", chip: "Move the pin", sheet: "Set pickup location", rows: [["Address", "Drag map to adjust"], ["Nearby point", "Main entrance"]], cta: "Set pickup", note: "Manual map fallback when GPS or geocoding does not match the rider's real pickup." },
+          { id: "M15", title: "Saved Places", type: "list", kicker: "Saved places", headline: "Home, Work, and more", items: ["Home · 240 Lake St", "Work · 810 Madison St", "Add saved place"], cta: "Done", nav: "Account", note: "MVP saved places list that can be reached from Home, Account, or booking." },
+          { id: "M16", title: "Add / Edit Saved Place", type: "form", kicker: "Saved place", headline: "Save this address", fields: ["Place name", "Address", "Apartment or note"], cta: "Save place", note: "One form handles add, edit, disabled save, and delete confirmation entry." },
+          { id: "M17", title: "Add Or Edit Stops", type: "list", kicker: "Stops", headline: "Add stops", items: ["Pickup · 125 Market St", "Stop 1 · Coffee Bar", "Destination · 810 Madison St", "Add another stop"], cta: "Update trip", note: "Stop limit and fare-impact warnings stay inline rather than becoming separate screens." }
+        ]
+      },
+      {
+        title: "Quote, Payment, And Request",
+        screens: [
+          { id: "M18", title: "Choose Ride Type", type: "list", kicker: "Choose ride", headline: "Available rides", items: ["APEX Standard · $18.40 · 4 min", "APEX XL · $26.20 · 7 min", "Comfort · $23.80 · 5 min", "Premium · Not available"], cta: "Select Standard", note: "One selector handles economy, priority, XL, comfort, premium, unavailable, and detail states." },
+          { id: "M19", title: "Trip Details / Fare Estimate", type: "mapSheet", chip: "Route preview", sheet: "$18.40 estimated", rows: [["Pickup", "125 Market St"], ["Dropoff", "810 Madison St"], ["ETA", "4 min pickup · 22 min trip"], ["Payment", "Visa · 4482"]], cta: "Continue", note: "Quote screen combines fare, ETA, pickup distance, dropoff timing, and trip details." },
+          { id: "M20", title: "Payment Selector", type: "list", kicker: "Payment", headline: "Choose payment", items: ["Visa · 4482 · Default", "Apple Pay", "Add payment method", "Promo code"], cta: "Use this payment", note: "Booking payment chooser shares the same payment method model as Wallet." },
+          { id: "M21", title: "Confirm Ride", type: "mapSheet", chip: "Ready to request", sheet: "Standard to West Loop", rows: [["Fare", "$18.40 estimated"], ["Pickup", "South entrance"], ["Payment", "Visa · 4482"]], cta: "Confirm ride", note: "Final review before matching. Only one primary action is visible." },
+          { id: "M22", title: "High Demand Confirmation", type: "hero", state: "warn", kicker: "High demand", headline: "Fare is now $24.80", sub: "Prices changed before confirmation. Review the new fare before requesting.", cta: "Accept new fare", secondary: "Go back", note: "Covers high-demand pricing and fare-changed-before-request states." },
+          { id: "M23", title: "Connecting To Driver", type: "mapNotice", state: "good", headline: "Finding your driver", sub: "This usually takes less than a minute.", cta: "Cancel request", note: "Request pending state before a driver is assigned." },
+          { id: "M24", title: "No Cars Available", type: "mapNotice", state: "warn", headline: "No cars nearby", sub: "Try again, choose a different ride type, or adjust pickup.", cta: "Try again", secondary: "Change pickup", note: "Core matching failure state with paths back into quote and pickup." },
+          { id: "M25", title: "Payment Failed", type: "hero", state: "bad", kicker: "Payment", headline: "Payment did not go through", sub: "Choose another payment method before requesting this ride.", cta: "Change payment", secondary: "Cancel", note: "Booking-time payment failure blocker." },
+          { id: "M26", title: "Outstanding Balance Blocker", type: "hero", state: "bad", kicker: "Account hold", headline: "Pay balance to ride", sub: "A previous trip balance must be paid before requesting another ride.", cta: "Pay $18.40", secondary: "Get help", note: "Full blocker when the rider cannot request until balance is resolved." },
+          { id: "M27", title: "Ride Type Unavailable", type: "list", kicker: "Ride unavailable", headline: "Standard is not available", items: ["Try XL · 7 min", "Change pickup", "Try again in a few minutes"], cta: "Choose XL", note: "Availability failure for a selected ride type without losing the trip plan." }
+        ]
+      },
+      {
+        title: "Driver Assigned And Pickup",
+        screens: [
+          { id: "M28", title: "Driver Assigned", type: "mapSheet", chip: "Matched", sheet: "Maya is your driver", rows: [["Vehicle", "Silver Camry · ABC-123"], ["ETA", "4 min"], ["Rating", "4.92"]], cta: "View pickup", note: "Confirms match with driver, vehicle, plate, ETA, and confidence details." },
+          { id: "M29", title: "Driver On The Way", type: "mapSheet", chip: "Driver arriving", sheet: "Maya arrives in 4 min", rows: [["Pickup", "South entrance"], ["Vehicle", "Silver Camry"], ["Plate", "ABC-123"]], cta: "Contact driver", secondary: "Safety", note: "Main pre-pickup tracking state after assignment." },
+          { id: "M30", title: "Meet At Pickup", type: "mapSheet", chip: "Meet point", sheet: "Meet at south entrance", rows: [["Walk", "1 min"], ["Driver", "Maya · Camry"], ["Verify", "Check plate ABC-123"]], cta: "I'm at pickup", note: "Dedicated meet-point state for larger venues or adjusted pickup points." },
+          { id: "M31", title: "Verify Driver / Vehicle", type: "hero", kicker: "Before you enter", headline: "Confirm the car and plate", sub: "Maya · Silver Toyota Camry · ABC-123.", cta: "Looks right", secondary: "Report mismatch", note: "Wrong driver/car prevention before the rider enters the vehicle." },
+          { id: "M32", title: "Contact Driver", type: "thread", kicker: "Contact Maya", headline: "Call or message", messages: ["I'm by the south entrance.", "Great, I am two minutes away."], cta: "Call driver", note: "Combines chat, quick replies, masked call, driver message notification, and pickup note edit." },
+          { id: "M33", title: "Change Pickup", type: "mapSheet", chip: "Adjust pickup", sheet: "Move pickup point", rows: [["Current", "South entrance"], ["Suggested", "Main lobby"], ["Driver impact", "ETA may update"]], cta: "Request change", note: "Change pickup location, move pin, and pickup changed confirmation use this pattern." },
+          { id: "M34", title: "Driver Delayed / Reassigned", type: "mapNotice", state: "warn", headline: "Driver is delayed", sub: "You can wait, cancel, or we can look for another driver.", cta: "Find new driver", secondary: "Keep ride", note: "Covers delayed driver, reassignment, driver-cancelled recovery, and no-driver-found retry paths." },
+          { id: "M35", title: "Cancel Ride", type: "hero", state: "warn", kicker: "Cancel ride", headline: "Cancel this ride?", sub: "You may be charged a cancellation fee depending on timing.", cta: "Continue", secondary: "Keep ride", note: "Shared entry for cancel before matching and cancel after driver assignment." },
+          { id: "M36", title: "Cancel Reason / Fee Warning", type: "list", kicker: "Cancellation", headline: "Choose a reason", items: ["Driver too far away", "Pickup changed", "Wait time too long", "Booked by mistake"], cta: "Cancel ride", note: "Reason list and fee warning in one state. Keep Ride remains the safer secondary path." },
+          { id: "M37", title: "Ride Cancelled Outcome", type: "hero", kicker: "Ride cancelled", headline: "You are not on this ride", sub: "You can rebook with the same route or return home.", cta: "Rebook", secondary: "Return home", note: "Covers rider-cancelled success, driver-cancelled, expired request, and rebook entry." }
+        ]
+      },
+      {
+        title: "Active Ride And Safety",
+        screens: [
+          { id: "M38", title: "Active Ride", type: "mapSheet", chip: "Trip active", sheet: "18 min to West Loop", rows: [["Driver", "Maya"], ["Destination", "810 Madison St"], ["Payment", "Visa · 4482"]], cta: "Trip details", secondary: "Safety", note: "Main in-ride map with ETA, destination, route progress, driver contact, and safety access." },
+          { id: "M39", title: "Trip Details During Ride", type: "list", kicker: "Trip details", headline: "Current ride", items: ["Destination · 810 Madison St", "Payment · Visa 4482", "Change destination", "Add stop", "Report route issue"], cta: "Return to ride", note: "Holds in-trip edits and issue entry without cluttering the navigation screen." },
+          { id: "M40", title: "Change Destination", type: "search", kicker: "Destination", headline: "Change destination", fields: ["Current · 810 Madison St", "New destination"], items: ["1200 Lake St", "Airport Terminal 2", "Set on map"], cta: "Update destination", note: "In-ride destination edit with fare/ETA recalculation before commit." },
+          { id: "M41", title: "Fare Changed Alert", type: "hero", state: "warn", kicker: "Fare update", headline: "Trip is now about $27.20", sub: "Destination or stop changes increased the estimated fare.", cta: "Accept update", secondary: "Keep original trip", note: "One alert for active ride fare changes and accept/revert decisions." },
+          { id: "M42", title: "Add Stop During Ride", type: "list", kicker: "Stops", headline: "Update stops", items: ["Current route · West Loop", "Add stop", "Stop affects fare and ETA"], cta: "Save changes", note: "In-ride stop add/edit/remove uses the same stops model as planning." },
+          { id: "M43", title: "Safety Toolkit", type: "list", kicker: "Safety", headline: "Get help fast", items: ["Emergency assistance", "Share trip status", "Report safety issue", "Report wrong driver/car"], cta: "Emergency assistance", note: "Safety entry reachable during pickup and active ride." },
+          { id: "M44", title: "Emergency Assistance", type: "emergency", headline: "Call emergency services?", rows: [["Location", "On trip to West Loop"], ["Vehicle", "Silver Camry · ABC-123"], ["Driver", "Maya"]], note: "Emergency action stays prominent and should never be disabled." },
+          { id: "M45", title: "Share Trip", type: "list", kicker: "Share trip", headline: "Send live status", items: ["Trusted contact · Alex", "Copy live trip link", "Stop sharing"], cta: "Share trip", note: "Trusted contacts and copy-link states are part of active sharing, not a separate MVP settings flow." },
+          { id: "M46", title: "Report Safety / Route Issue", type: "form", kicker: "Report issue", headline: "What happened?", fields: ["Issue type", "Add details"], chips: ["Safety", "Route", "Wrong car", "Driver behavior"], cta: "Submit report", note: "Safety issue, route issue, and wrong driver/car report share one urgent reporting model." },
+          { id: "M47", title: "End Ride Early", type: "hero", state: "bad", kicker: "End ride", headline: "Need to end this ride?", sub: "Choose this only if you need to exit before the destination.", cta: "End ride early", secondary: "Return to trip", note: "Early termination path from in-ride safety or trip details." }
+        ]
+      },
+      {
+        title: "Post-Trip, Activity, And Support",
+        screens: [
+          { id: "M48", title: "Trip Complete", type: "hero", kicker: "Trip complete", headline: "You arrived", sub: "Receipt is being finalized.", cta: "Continue", note: "Transition state after dropoff before rating, tip, and receipt." },
+          { id: "M49", title: "Rate Driver", type: "chips", kicker: "Rate Maya", headline: "How was your ride?", chips: ["Star", "Star", "Star", "Star", "Star"], cta: "Submit rating", note: "Compliments and low-rating reasons appear conditionally, not as separate MVP screens." },
+          { id: "M50", title: "Tip Driver", type: "chips", kicker: "Tip", headline: "Add a tip?", chips: ["$2", "$4", "$6", "Custom"], cta: "Add tip", secondary: "Skip", note: "Preset, custom, skip, confirmation, and edit-tip states collapse into one tip model." },
+          { id: "M51", title: "Receipt", type: "receipt", kicker: "Receipt", headline: "$22.40", rows: [["Trip fare", "$18.40"], ["Tip", "$4.00"], ["Promo", "-$0.00"], ["Paid with", "Visa · 4482"]], cta: "Get help with this trip", nav: "Activity", note: "Receipt detail, fare breakdown, payment method, promo line, and help entry in one screen." },
+          { id: "M52", title: "Activity Home", type: "list", kicker: "Activity", headline: "Trips", items: ["Today · Market St to West Loop · $22.40", "Yesterday · Airport Terminal 2 · $38.10", "No upcoming rides"], nav: "Activity", note: "Activity combines past trips, upcoming placeholder, empty state, and trip selection." },
+          { id: "M53", title: "Trip Detail / Help Entry", type: "receipt", kicker: "Trip detail", headline: "Market St to West Loop", rows: [["Driver", "Maya"], ["Date", "June 30, 2026"], ["Fare", "$22.40"], ["Route", "125 Market to 810 Madison"]], cta: "Help with this trip", note: "Past trip detail and receipt share one pattern with direct help entry." },
+          { id: "M54", title: "Unified Trip Issue Router", type: "list", kicker: "Trip help", headline: "What do you need help with?", items: ["Fare or refund", "Lost item", "Driver behavior", "Safety issue", "Cancellation fee"], cta: "Continue", note: "Fare issue, refund, unexpected charge, promo not applied, lost item, driver report, and safety support start here." },
+          { id: "M55", title: "Issue Detail Form", type: "form", kicker: "Fare issue", headline: "Tell us what happened", fields: ["Issue reason", "Details for support"], chips: ["Wrong fare", "Refund", "Promo missing"], cta: "Submit issue", note: "Reusable support form for fare, refund, lost item, driver behavior, and safety cases." },
+          { id: "M56", title: "Help Home", type: "list", kicker: "Help", headline: "How can we help?", items: ["Trip issues and refunds", "Account and payment", "I can't request a ride", "Safety"], cta: "Search help", note: "Support home for account, payment, ride, safety, and help articles." }
+        ]
+      },
+      {
+        title: "Wallet, Account, Settings",
+        screens: [
+          { id: "M57", title: "Wallet Overview", type: "list", kicker: "Wallet", headline: "Payment and credits", items: ["Visa · 4482 · Default", "Add payment method", "Promos and credits", "Outstanding balance · None"], nav: "Wallet", note: "MVP wallet covers payment methods, default payment, promo entry, and balance status." },
+          { id: "M58", title: "Add Payment Method", type: "list", kicker: "Payment", headline: "Add payment", items: ["Credit or debit card", "Apple Pay", "PayPal", "Gift card"], cta: "Continue", note: "Entry point for payment method creation; commuter benefits and advanced wallet are deferred." },
+          { id: "M59", title: "Add Card", type: "form", kicker: "Card", headline: "Add card details", fields: ["Card number", "Expiration", "Security code", "ZIP code"], cta: "Save card", note: "Includes validation, declined, and save-disabled states." },
+          { id: "M60", title: "Payment Method Detail / Remove", type: "list", kicker: "Visa · 4482", headline: "Payment method", items: ["Default for rides", "Edit card", "Remove payment method"], cta: "Save", secondary: "Remove", note: "Card detail, edit, remove confirmation, and removed state collapse into one payment detail model." },
+          { id: "M61", title: "Account Dashboard", type: "list", kicker: "Account", headline: "Jeffrey W.", items: ["Account info", "Wallet", "Saved places", "Settings", "Help"], nav: "Account", note: "Account entry for profile, wallet, trips, saved places, settings, and help." },
+          { id: "M62", title: "Account Info", type: "list", kicker: "Account info", headline: "Basic details", items: ["Name · Jeffrey W.", "Phone · Verified", "Email · Add email", "Profile photo"], cta: "Save changes", note: "Basic info, edit name, edit phone/email, verification indicators, and profile photo entry." },
+          { id: "M63", title: "Settings Overview", type: "list", kicker: "Settings", headline: "App controls", items: ["Location permissions", "Notifications", "Privacy and data", "Language", "Accessibility"], nav: "Account", note: "MVP settings shell. Appearance, invoice info, passkeys, connected apps, and delete account are deferred." },
+          { id: "M64", title: "Privacy And Data", type: "list", kicker: "Privacy", headline: "Privacy and data", items: ["Location privacy", "Communication preferences", "Download data", "Delete account"], cta: "Done", note: "Privacy entry is present for trust, while full privacy center and delete account flow are nice-to-haves." }
+        ]
+      }
+    ];
+
+    const flows = [
+      { title: "1. First Launch And Auth", body: "The app routes signed-out riders through lightweight account creation before they can request a ride.", steps: ["M01 checks session and app readiness.", "M02-M04 handle phone sign-in and verification.", "M05-M06 capture required profile and terms.", "M07-M08 request location and notification permissions contextually."] },
+      { title: "2. Plan A Ride", body: "The rider starts from Home, chooses destination and pickup, then optionally saves places or adds stops.", steps: ["M09 is the idle map and entry point.", "M10 handles location blockers.", "M11-M14 cover destination and pickup selection.", "M15-M17 cover saved places and stops without leaving the planning loop."] },
+      { title: "3. Quote And Confirm", body: "The quote loop keeps fare, ETA, ride type, payment, and confirmation separate but compact.", steps: ["M18 selects the ride type.", "M19 previews route, fare, and ETA.", "M20 chooses payment.", "M21 confirms the ride.", "M22-M27 cover fare, payment, availability, and no-car blockers."] },
+      { title: "4. Match And Pickup", body: "After request, the rider tracks the driver, verifies the vehicle, contacts the driver, and can cancel safely.", steps: ["M23 finds a driver.", "M28-M30 show assignment, ETA, vehicle, and meet point.", "M31 protects against wrong car or driver.", "M32-M34 cover contact, pickup changes, delays, and reassignment.", "M35-M37 cover cancellation and recovery."] },
+      { title: "5. Active Ride", body: "The active ride flow prioritizes route progress, trip edits, safety, sharing, and early end paths.", steps: ["M38 is the main active ride map.", "M39-M42 hold trip details, destination changes, fare changes, and stops.", "M43-M47 cover emergency, share trip, reporting, and end ride early."] },
+      { title: "6. Post-Trip And Receipt", body: "After arrival, the rider rates, tips, reviews the receipt, and can get help with the trip.", steps: ["M48 transitions after completion.", "M49-M50 handle rating and tip.", "M51 shows receipt and help entry.", "M52-M53 keep trip history and details accessible."] },
+      { title: "7. Support", body: "A single support model prevents one-off issue flows from bloating the MVP.", steps: ["M54 routes trip issues by category.", "M55 captures issue detail and evidence.", "M56 handles general help, payment, account, and ride articles."] },
+      { title: "8. Wallet And Account", body: "Wallet and Account support the ride loop without becoming their own deep product in MVP.", steps: ["M57-M60 manage payments and blockers.", "M61-M62 manage account basics.", "M63-M64 expose settings and privacy while deferring deep controls."] }
+    ];
+
+    function nav(active) {
+      if (!active) return "";
+      const items = [["Ride", "⌁"], ["Activity", "≡"], ["Wallet", "$"], ["Account", "○"]];
+      return `<nav class="bottom-nav">${items.map(([label, icon]) => `<span class="nav-item ${label === active ? "active" : ""}"><b>${icon}</b>${label}</span>`).join("")}</nav>`;
+    }
+
+    function map(markup = "", size = "tall", chip = "Map") {
+      return `<div class="map ${size}"><span class="map-chip">${chip}</span><i class="street s1"></i><i class="street s2"></i><i class="street s3"></i><i class="route"></i><span class="zone"></span><span class="rider-pin"></span><span class="driver-pin"></span><span class="pin drop"></span>${markup}</div>`;
+    }
+
+    function rows(rows = []) {
+      return `<div class="rows">${rows.map(([a, b]) => `<div class="row"><span>${a}</span><strong>${b}</strong></div>`).join("")}</div>`;
+    }
+
+    function button(screen) {
+      const primary = screen.cta ? `<button class="button ${screen.state === "bad" ? "danger" : "accent"}">${screen.cta}</button>` : "";
+      const secondary = screen.secondary ? `<button class="button secondary">${screen.secondary}</button>` : "";
+      if (primary && secondary) return `<div class="actions equal">${primary}${secondary}</div>`;
+      return primary || secondary;
+    }
+
+    function body(screen) {
+      const top = `<div class="top"><div class="brand"><span class="mark">A</span><span>APEX</span></div><span class="pill ${screen.state === "bad" ? "bad" : screen.state === "warn" ? "warn" : screen.state === "good" ? "good" : ""}">${screen.kicker || screen.title}</span></div>`;
+      if (screen.type === "mapHome") return `${top}${map("", "tall", screen.chip)}<div class="sheet"><div class="sheet-head"><h3 class="sheet-title">${screen.sheet}</h3><span class="pill">Now</span></div>${rows(screen.rows)}</div>${button(screen)}${nav(screen.nav)}`;
+      if (screen.type === "mapSheet") return `${top}${map("", "tall", screen.chip)}<div class="sheet"><h3 class="sheet-title">${screen.sheet}</h3>${rows(screen.rows)}</div>${button(screen)}`;
+      if (screen.type === "mapNotice") return `${top}${map("", "tall", "Current area")}<div class="notice ${screen.state || ""}"><strong>${screen.headline}</strong><p>${screen.sub}</p></div>${button(screen)}`;
+      if (screen.type === "list") return `${top}<div class="title-block"><div class="kicker">${screen.kicker}</div><h2 class="title">${screen.headline}</h2></div><div class="list">${screen.items.map((item) => `<div class="item">${item}<strong>›</strong></div>`).join("")}</div>${button(screen)}${nav(screen.nav)}`;
+      if (screen.type === "form") return `${top}<div class="title-block"><div class="kicker">${screen.kicker}</div><h2 class="title">${screen.headline}</h2>${screen.sub ? `<p class="subtitle">${screen.sub}</p>` : ""}</div>${screen.heroAmount ? `<div class="sheet"><div class="amount">${screen.heroAmount}</div><p class="subtitle">Resend code in 24 seconds</p></div>` : ""}${screen.chips ? `<div class="chips">${screen.chips.map((c, i) => `<span class="chip ${i === 0 ? "active" : ""}">${c}</span>`).join("")}</div>` : ""}${(screen.fields || []).map((field) => field === "Details for support" || field === "Add details" ? `<div class="textarea">${field}</div>` : `<div class="input"><span>${field}</span><strong>${field.includes("Issue") ? "Select" : ""}</strong></div>`).join("")}${button(screen)}`;
+      if (screen.type === "search") return `${top}<div class="title-block"><div class="kicker">${screen.kicker}</div><h2 class="title">${screen.headline}</h2></div>${screen.fields.map((field) => `<div class="input"><span>${field}</span><strong>⌕</strong></div>`).join("")}<div class="list">${screen.items.map((item) => `<div class="item">${item}<strong>›</strong></div>`).join("")}</div>${button(screen)}`;
+      if (screen.type === "thread") return `${top}<div class="title-block"><div class="kicker">${screen.kicker}</div><h2 class="title">${screen.headline}</h2></div><div class="thread">${screen.messages.map((m, i) => `<div class="bubble ${i === 0 ? "me" : ""}">${m}</div>`).join("")}</div><div class="chips"><span class="chip active">I'm here</span><span class="chip">On my way</span><span class="chip">Where are you?</span></div>${button(screen)}`;
+      if (screen.type === "emergency") return `${top}<div class="hero danger"><div class="kicker">Emergency</div><h2 class="title">${screen.headline}</h2><p class="subtitle">Your current trip and location details are visible.</p></div><div class="emergency">Call emergency services</div><div class="sheet">${rows(screen.rows)}</div>`;
+      if (screen.type === "receipt") return `${top}<div class="hero"><div class="kicker">${screen.kicker}</div><div class="amount">${screen.headline}</div><p class="subtitle">Trip details and payment summary.</p></div><div class="sheet">${rows(screen.rows)}</div>${button(screen)}${nav(screen.nav)}`;
+      if (screen.type === "chips") return `${top}<div class="title-block"><div class="kicker">${screen.kicker}</div><h2 class="title">${screen.headline}</h2></div><div class="chips">${screen.chips.map((chip) => `<span class="chip active">${chip}</span>`).join("")}</div>${button(screen)}`;
+      return `${top}<div class="hero ${screen.state === "bad" ? "danger" : ""}"><div class="kicker">${screen.kicker}</div><h2 class="title">${screen.headline}</h2><p class="subtitle">${screen.sub || ""}</p></div>${screen.notice ? `<div class="notice"><strong>Next</strong><p>${screen.notice}</p></div>` : ""}${button(screen)}`;
+    }
+
+    function renderWireframes() {
+      const panel = document.querySelector("#wireframes-panel");
+      panel.innerHTML = sections.map((section) => `
+        <h2 class="section-title">${section.title}</h2>
+        <section class="gallery">
+          ${section.screens.map((screen) => `
+            <article class="frame">
+              <div class="frame-label">${screen.id}. ${screen.title}</div>
+              <div class="frame-note">${screen.note}</div>
+              <div class="phone"><div class="status"><span>9:41</span><span>LTE</span></div><div class="content">${body(screen)}</div></div>
+            </article>
+          `).join("")}
+        </section>
+      `).join("");
+    }
+
+    function renderFlows() {
+      document.querySelector("#flow-grid").innerHTML = flows.map((flow) => `
+        <article class="flow-card">
+          <h3>${flow.title}</h3>
+          <p>${flow.body}</p>
+          <ol>${flow.steps.map((step) => `<li>${step}</li>`).join("")}</ol>
+        </article>
+      `).join("");
+    }
+
+    renderWireframes();
+    renderFlows();
+  </script>
+</body>
+</html>
